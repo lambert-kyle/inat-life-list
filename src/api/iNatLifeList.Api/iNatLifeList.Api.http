@@ -1,0 +1,6 @@
+@iNatLifeList_Api_HostAddress = http://localhost:5010
+
+GET {{iNatLifeList_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
