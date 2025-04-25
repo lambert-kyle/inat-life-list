@@ -8,7 +8,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontendAndLocalhost", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://inat-life-list.vercel.app/")
+        policy.WithOrigins("http://localhost:5173", "https://inat-life-list.vercel.app")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

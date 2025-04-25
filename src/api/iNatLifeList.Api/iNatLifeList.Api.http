@@ -1,6 +1,12 @@
-@iNatLifeList_Api_HostAddress = http://localhost:5010
+@iNatLifeList_Api_HostAddress = https://inatlifelist-api.onrender.com/
+@iNatLifeList_Api_LocalHostAddress = http://localhost:5010/
 
 GET {{iNatLifeList_Api_HostAddress}}/health/
+Accept: application/json
+
+###
+
+GET {{iNatLifeList_Api_LocalHostAddress}}/health/
 Accept: application/json
 
 ###
