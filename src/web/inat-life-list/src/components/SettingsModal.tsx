@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
-interface PlaceResult {
-    id: number
-    display_name: string
-    location: string // format: "lat,lng"
-}
+import PlaceResult from '../models/PlaceResult.ts'
 
 interface SettingsModalProps {
     isOpen: boolean

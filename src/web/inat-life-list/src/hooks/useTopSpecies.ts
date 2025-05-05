@@ -1,43 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-
-interface TopSpeciesResult {
-    id: number
-    name: string
-    preferred_common_name: string
-    iconic_taxon_name: string
-    observations_count: number
-    wikipedia_url?: string
-    default_photo?: {
-        square_url: string
-        medium_url: string
-        small_url: string
-        thumb_url: string
-    }
-}
-
-interface UseTopSpeciesOptions {
-    lat: number
-    lng: number
-    radius: number
-    limit: number
-}
-
-interface SpeciesCountResult {
-    count: number
-    taxon: {
-        id: number
-        name: string
-        preferred_common_name: string
-        iconic_taxon_name: string
-        wikipedia_url?: string
-        default_photo?: {
-            square_url: string
-            medium_url: string
-            small_url: string
-            thumb_url: string
-        }
-    }
-}
+import { TopSpeciesResult } from './topSpeciesResult.ts'
+import { UseTopSpeciesOptions } from './useTopSpeciesOptions.ts'
+import { SpeciesCountResult } from './speciesCountResult.ts'
 
 async function fetchTopSpeciesByLatLng(
     lat: number,
