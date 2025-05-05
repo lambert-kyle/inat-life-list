@@ -5,7 +5,7 @@ import { useSettings } from '../modules/settings/useSettings.tsx';
 
 export const LifeList = (): React.ReactElement => {
     const [settingsOpen, setSettingsOpen] = useState(false);
-    const { latitude, limit, longitude, radiusKm, placeId } = useSettings();
+    const { latitude, limit, longitude, radiusKm } = useSettings();
 
     const { data, error, isLoading } = useTopSpecies({
         lat: latitude,
@@ -13,10 +13,6 @@ export const LifeList = (): React.ReactElement => {
         radius: radiusKm,
         limit,
     });
-
-    React.useEffect(() => {
-        console.log({ latitude, longitude, radiusKm, limit, placeId });
-    }, [latitude, limit, longitude, radiusKm, placeId]);
 
     return (
         <div>

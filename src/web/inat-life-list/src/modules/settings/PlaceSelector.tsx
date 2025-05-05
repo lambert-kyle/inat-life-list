@@ -20,6 +20,7 @@ export const PlaceSelector: React.FC<{
 }> = ({ place, setPlace }) => {
     const [placeQuery, setPlaceQuery] = useState(place?.display_name ?? '');
     const [placeResults, setPlaceResults] = useState<Place[]>([]);
+    const [showResults, setShowResults] = useState(false);
 
     useEffect(() => {
         if (placeQuery.trim().length === 0) return;
@@ -39,6 +40,10 @@ export const PlaceSelector: React.FC<{
                 value={placeQuery}
                 placeholder={'Search for a place...'}
                 onChange={(e) => setPlaceQuery(e.target.value)}
+                onFocus={() => setShowResults(true)}
+                onBlur={() => {
+                    setTimeout(() => setShowResults(false), 200);
+                }}
                 style={{
                     width: '90%',
                     padding: '0.5rem ',
@@ -47,34 +52,36 @@ export const PlaceSelector: React.FC<{
                     borderRadius: '4px',
                 }}
             />
-            <div style={{ border: '1px solid red', padding: '.25em' }}>
-                <ul
-                    style={{
-                        maxHeight: '150px',
-                        overflowY: 'auto',
-                        listStyle: 'none',
-                        padding: 0,
-                        marginTop: '0.5rem',
-                    }}
-                >
-                    {placeResults.map((place) => (
-                        <li
-                            key={place.id}
-                            style={{
-                                cursor: 'pointer',
-                                padding: '0.25rem 0',
-                            }}
-                            onClick={() => {
-                                setPlace(place);
-                                setPlaceQuery(place.display_name);
-                                setPlaceResults([]);
-                            }}
-                        >
-                            → {place.display_name}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            {showResults && (
+                <div style={{ padding: '.25em' }}>
+                    <ul
+                        style={{
+                            maxHeight: '150px',
+                            overflowY: 'auto',
+                            listStyle: 'none',
+                            padding: 0,
+                            marginTop: '0.5rem',
+                        }}
+                    >
+                        {placeResults.map((place) => (
+                            <li
+                                key={place.id}
+                                style={{
+                                    cursor: 'pointer',
+                                    padding: '0.25rem 0',
+                                }}
+                                onClick={() => {
+                                    setPlace(place);
+                                    setPlaceQuery(place.display_name);
+                                    setPlaceResults([]);
+                                }}
+                            >
+                                → {place.display_name}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };
