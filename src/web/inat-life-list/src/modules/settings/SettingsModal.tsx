@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSettings } from './useSettings.tsx';
 import PlaceSelector from './PlaceSelector.tsx';
 import Place from './Place.ts';
@@ -34,6 +34,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
     const { data: user } = useUser(userId);
     const [selectedUser, setSelectedUser] = useState<User | undefined>(user);
 
+    // Synchronize selectedPlace with the fetched place data
+    useEffect(() => {
+        setSelectedPlace(place);
+    }, [place]);
+
+    // Synchronize selectedUser with the fetched user data
+    useEffect(() => {
+        setSelectedUser(user);
+    }, [user]);
+
     const handleSave = React.useCallback(() => {
         if (
             !selectedLimit ||
@@ -59,6 +69,14 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         setPlaceId,
         onClose,
     ]);
+
+    const handleCancel = React.useCallback(() => {
+        setSelectedLimit(limit);
+        setSelectedRadius(radiusKm);
+        setSelectedPlace(place);
+        setSelectedUser(user);
+        onClose();
+    }, [limit, onClose, place, radiusKm, user]);
 
     if (!isOpen) return null;
     return (
@@ -138,7 +156,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <button onClick={onClose}>Cancel</button>
+                    <button onClick={handleCancel}>Cancel</button>
                     <button
                         onClick={handleSave}
                         disabled={
