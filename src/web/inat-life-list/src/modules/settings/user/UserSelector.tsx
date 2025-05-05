@@ -63,22 +63,53 @@ export const UserSelector: React.FC<{
                             listStyle: 'none',
                             padding: 0,
                             marginTop: '0.5rem',
+                            border: '1px solid grey',
+                            borderRadius: '4px',
                         }}
                     >
-                        {UserResults.map((User) => (
+                        {UserResults.map((user) => (
                             <li
-                                key={User.id}
+                                key={user.id}
                                 style={{
                                     cursor: 'pointer',
                                     padding: '0.25rem 0',
                                 }}
                                 onClick={() => {
-                                    setUser(User);
-                                    setUserQuery(User.login);
+                                    setUser(user);
+                                    setUserQuery(user.login);
                                     setUserResults([]);
                                 }}
                             >
-                                → {User.login} ({User.name})
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.5rem',
+                                        padding: '0.5rem',
+                                        borderRadius: '4px',
+                                        transition: 'background-color 0.2s',
+                                    }}
+                                    onMouseEnter={(e) =>
+                                        (e.currentTarget.style.backgroundColor =
+                                            '#f0f0f0')
+                                    }
+                                    onMouseLeave={(e) =>
+                                        (e.currentTarget.style.backgroundColor =
+                                            'transparent')
+                                    }
+                                >
+                                    {user.icon ? (
+                                        <img
+                                            src={user.icon}
+                                            alt={user.name}
+                                            width="25"
+                                            height="25"
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
+                                    {user.login} ({user.name})
+                                </div>
                             </li>
                         ))}
                     </ul>

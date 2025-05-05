@@ -61,6 +61,8 @@ export const PlaceSelector: React.FC<{
                             listStyle: 'none',
                             padding: 0,
                             marginTop: '0.5rem',
+                            border: '1px solid grey',
+                            borderRadius: '4px',
                         }}
                     >
                         {placeResults.map((place) => (
@@ -76,7 +78,26 @@ export const PlaceSelector: React.FC<{
                                     setPlaceResults([]);
                                 }}
                             >
-                                → {place.display_name}
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.5rem',
+                                        padding: '0.5rem',
+                                        borderRadius: '4px',
+                                        transition: 'background-color 0.2s',
+                                    }}
+                                    onMouseEnter={(e) =>
+                                        (e.currentTarget.style.backgroundColor =
+                                            '#f0f0f0')
+                                    }
+                                    onMouseLeave={(e) =>
+                                        (e.currentTarget.style.backgroundColor =
+                                            'transparent')
+                                    }
+                                >
+                                    📍 {place.display_name}
+                                </div>
                             </li>
                         ))}
                     </ul>
