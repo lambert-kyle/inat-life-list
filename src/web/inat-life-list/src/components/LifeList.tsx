@@ -35,6 +35,7 @@ export const LifeList = (): React.ReactElement => {
                 observationsCount: species.observations_count,
                 photoUrl: species.default_photo?.square_url,
                 seen: userTaxa?.has(species.id),
+                iNatLink: `https://www.inaturalist.org/taxa/${species.id}`,
             })),
         [topSpecies, userTaxa]
     );
@@ -68,8 +69,7 @@ export const LifeList = (): React.ReactElement => {
                     <thead>
                         <tr>
                             <th>📸</th>
-                            <th>Scientific Name</th>
-                            <th>Common Name</th>
+                            <th>Name</th>
                             <th>Observation Count</th>
                             <th>Seen?</th>
                         </tr>
@@ -79,23 +79,52 @@ export const LifeList = (): React.ReactElement => {
                             <tr key={species.id}>
                                 <td>
                                     {species.photoUrl ? (
-                                        <img
-                                            src={species.photoUrl}
-                                            alt={
-                                                species.commonName ||
-                                                species.scientificName
-                                            }
-                                            width="50"
-                                            height="50"
-                                        />
+                                        <a
+                                            href={species.iNatLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            style={{
+                                                textDecoration: 'none',
+                                                color: 'inherit',
+                                            }}
+                                        >
+                                            <img
+                                                src={species.photoUrl}
+                                                alt={
+                                                    species.commonName ||
+                                                    species.scientificName
+                                                }
+                                                width="50"
+                                                height="50"
+                                            />
+                                        </a>
                                     ) : (
                                         'N/A'
                                     )}
                                 </td>
                                 <td>
-                                    <i>{species.scientificName}</i>
+                                    <a
+                                        href={species.iNatLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{
+                                            textDecoration: 'none',
+                                            color: 'inherit',
+                                        }}
+                                    >
+                                        {species.commonName ? (
+                                            <>
+                                                {species.commonName}
+                                                <br />
+                                            </>
+                                        ) : (
+                                            ''
+                                        )}
+                                        <i style={{ paddingLeft: '0.25em' }}>
+                                            {species.scientificName}
+                                        </i>
+                                    </a>
                                 </td>
-                                <td>{species.commonName || 'N/A'}</td>
                                 <td>{species.observationsCount}</td>
                                 <td>
                                     {species.seen ? '✅ Seen' : '❌ Not Seen'}
