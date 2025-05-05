@@ -3,7 +3,7 @@ import { useTopSpecies } from '../hooks/useTopSpecies.ts';
 import { useSettings } from '../modules/settings/useSettings.tsx';
 import { useUserObservations } from '../modules/observations/useUserObservations.ts';
 import useUser from '../modules/settings/user/useUser.ts';
-import SettingsBar from '../modules/settings/SettingsBar.tsx';
+import SettingsSidebar from '../modules/settings/SettingsSidebar.tsx';
 
 export const LifeList = (): React.ReactElement => {
     const { latitude, limit, longitude, radiusKm, userId } = useSettings();
@@ -40,7 +40,8 @@ export const LifeList = (): React.ReactElement => {
     );
 
     return (
-        <div>
+        <div style={{ marginLeft: '300px' /* to offset sidebar */ }}>
+            <SettingsSidebar />
             <div
                 style={{
                     display: 'flex',
@@ -50,12 +51,16 @@ export const LifeList = (): React.ReactElement => {
             >
                 <h1>iNaturalist Life List</h1>
             </div>
-            <SettingsBar />
-            <span>
+            <span
+                style={{
+                    padding: '0.5em',
+                    margin: '0.5em',
+                }}
+            >
                 Showing top {limit} species within {radiusKm} km of (
                 {latitude?.toFixed(2)}, {longitude?.toFixed(2)}) and whether{' '}
                 {user?.login} has observed them
-            </span>{' '}
+            </span>
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             {topSpecies && (
