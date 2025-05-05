@@ -17,7 +17,7 @@ const fetchPlaces = async (query: string): Promise<PlaceResult[]> => {
     const res = await fetch(url.toString())
     if (!res.ok) throw new Error('Failed to fetch places')
     const json = await res.json()
-    return json.results.map((p: any) => ({
+    return json.results.map((p: PlaceResult) => ({
         id: p.id,
         display_name: p.display_name,
         location: p.location,
@@ -33,8 +33,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     defaultRadius,
     defaultLimit,
 }) => {
-    const [limit, setLimit] = useState(defaultLimit)
-    const [radius, setRadius] = useState(defaultRadius)
+    const [limit, setLimit] = useState(defaultLimit.toString())
+    const [radius, setRadius] = useState(defaultRadius.toString())
     const [placeQuery, setPlaceQuery] = useState('')
     const [placeResults, setPlaceResults] = useState<PlaceResult[]>([])
     const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null)
@@ -48,8 +48,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     }, [placeQuery])
 
     useEffect(() => {
-        setLimit(defaultLimit)
-        setRadius(defaultRadius)
+        setLimit(defaultLimit.toString())
+        setRadius(defaultRadius.toString())
         setSelectedPlace({
             id: -1,
             display_name: `Lat: ${defaultLat}, Lng: ${defaultLng}`,
@@ -60,12 +60,15 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     if (!isOpen) return null
 
     const handleSave = () => {
-        if (limit <= 0 || radius <= 0 || !selectedPlace) return
+        const parsedLimit = parseInt(limit, 10)
+        const parsedRadius = parseInt(radius, 10)
+
+        if (isNaN(parsedLimit) || isNaN(parsedRadius) || !selectedPlace) return
         const [latStr, lngStr] = selectedPlace.location.split(',')
         const lat = parseFloat(latStr)
         const lng = parseFloat(lngStr)
         if (isNaN(lat) || isNaN(lng)) return
-        onSave(lat, lng, radius, limit)
+        onSave(lat, lng, parsedRadius, parsedLimit)
     }
 
     return (
@@ -86,76 +89,93 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     padding: '1rem',
                     margin: '10% auto',
                     width: '90%',
-                    maxWidth: '400px',
+                    maxWidth: '600px',
                     borderRadius: '8px',
                 }}
             >
                 <h2>Settings</h2>
 
-                <div>
-                    <label>
+                <div style={{ marginBottom: '1rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>
                         Limit (number of species):
-                        <input
-                            type="number"
-                            min="1"
-                            value={limit}
-                            onChange={(e) =>
-                                setLimit(parseInt(e.target.value, 10) || 1)
-                            }
-                        />
                     </label>
-                </div>
-
-                <div>
-                    <label>
-                        Radius (km):
-                        <input
-                            type="number"
-                            min="1"
-                            max="50"
-                            value={radius}
-                            onChange={(e) =>
-                                setRadius(parseInt(e.target.value, 10) || 1)
-                            }
-                        />
-                    </label>
-                </div>
-
-                <div>
-                    <label>
-                        Location:
-                        <input
-                            type="text"
-                            value={placeQuery}
-                            placeholder="Search for a place..."
-                            onChange={(e) => setPlaceQuery(e.target.value)}
-                        />
-                    </label>
-                    <ul
+                    <input
+                        type="number"
+                        value={limit}
+                        onChange={(e) => setLimit(e.target.value)}
                         style={{
-                            maxHeight: '150px',
-                            overflowY: 'auto',
-                            listStyle: 'none',
-                            padding: 0,
+                            width: '55%',
+                            padding: '0.5rem',
+                            background: '#f5f5f5',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
                         }}
-                    >
-                        {placeResults.map((place) => (
-                            <li
-                                key={place.id}
-                                style={{
-                                    cursor: 'pointer',
-                                    padding: '0.25rem 0',
-                                }}
-                                onClick={() => {
-                                    setSelectedPlace(place)
-                                    setPlaceQuery(place.display_name)
-                                    setPlaceResults([])
-                                }}
-                            >
-                                {place.display_name}
-                            </li>
-                        ))}
-                    </ul>
+                    />
+                </div>
+
+                <div style={{ marginBottom: '1rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>
+                        Radius (km):
+                    </label>
+                    <input
+                        type="number"
+                        value={radius}
+                        onChange={(e) => setRadius(e.target.value)}
+                        style={{
+                            width: '55%',
+                            padding: '0.5rem',
+                            background: '#f5f5f5',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                        }}
+                    />
+                </div>
+
+                <div style={{ marginBottom: '1rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>
+                        Location:
+                    </label>
+                    <input
+                        type="text"
+                        value={placeQuery}
+                        placeholder="Search for a place..."
+                        onChange={(e) => setPlaceQuery(e.target.value)}
+                        style={{
+                            width: '90%',
+                            padding: '0.5rem ',
+                            background: '#f5f5f5',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                        }}
+                    />
+                    <div style={{ border: '1px solid red', padding: '.25em' }}>
+                        <ul
+                            style={{
+                                maxHeight: '150px',
+                                overflowY: 'auto',
+                                listStyle: 'none',
+                                padding: 0,
+                                marginTop: '0.5rem',
+                            }}
+                        >
+                            {placeResults.map((place) => (
+                                <li
+                                    key={place.id}
+                                    style={{
+                                        cursor: 'pointer',
+                                        padding: '0.25rem 0',
+                                    }}
+                                    onClick={() => {
+                                        setSelectedPlace(place)
+                                        setPlaceQuery(place.display_name)
+                                        setPlaceResults([])
+                                    }}
+                                >
+                                    → {place.display_name}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
 
                 <div
