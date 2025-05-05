@@ -94,7 +94,11 @@ export const LifeList = (): React.ReactElement => {
                 }}
             >
                 <h1>iNaturalist Life List</h1>
-                <button onClick={() => setSettingsOpen(true)} title="Settings">
+                <button
+                    onClick={() => setSettingsOpen(true)}
+                    title="Settings"
+                    style={{ fontSize: 'large' }}
+                >
                     ⚙️
                 </button>
             </div>
