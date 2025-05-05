@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTopSpecies } from '../hooks/fetchTopObservations.ts'
+import { useTopSpecies } from '../hooks/useTopSpecies.ts'
 import SettingsModal from './SettingsModal'
 import { useSearchParams } from 'react-router-dom'
 
