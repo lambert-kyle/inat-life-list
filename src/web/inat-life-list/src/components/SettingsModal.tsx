@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import PlaceResult from '../models/PlaceResult.ts'
+import React, { useState, useEffect } from 'react';
+import PlaceResult from '../models/PlaceResult.ts';
 
 interface SettingsModalProps {
-    isOpen: boolean
-    onClose: () => void
-    onSave: (lat: number, lng: number, radius: number, limit: number) => void
-    defaultLat: number
-    defaultLng: number
-    defaultRadius: number
-    defaultLimit: number
+    isOpen: boolean;
+    onClose: () => void;
+    onSave: (lat: number, lng: number, radius: number, limit: number) => void;
+    defaultLat: number;
+    defaultLng: number;
+    defaultRadius: number;
+    defaultLimit: number;
 }
 
 const fetchPlaces = async (query: string): Promise<PlaceResult[]> => {
-    const url = new URL('https://api.inaturalist.org/v1/places/autocomplete')
-    url.searchParams.set('q', query)
-    const res = await fetch(url.toString())
-    if (!res.ok) throw new Error('Failed to fetch places')
-    const json = await res.json()
+    const url = new URL('https://api.inaturalist.org/v1/places/autocomplete');
+    url.searchParams.set('q', query);
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error('Failed to fetch places');
+    const json = await res.json();
     return json.results.map((p: PlaceResult) => ({
         id: p.id,
         display_name: p.display_name,
         location: p.location,
-    }))
-}
+    }));
+};
 
 const SettingsModal: React.FC<SettingsModalProps> = ({
     isOpen,
@@ -33,43 +33,45 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     defaultRadius,
     defaultLimit,
 }) => {
-    const [limit, setLimit] = useState(defaultLimit.toString())
-    const [radius, setRadius] = useState(defaultRadius.toString())
-    const [placeQuery, setPlaceQuery] = useState('')
-    const [placeResults, setPlaceResults] = useState<PlaceResult[]>([])
-    const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null)
+    const [limit, setLimit] = useState(defaultLimit.toString());
+    const [radius, setRadius] = useState(defaultRadius.toString());
+    const [placeQuery, setPlaceQuery] = useState('');
+    const [placeResults, setPlaceResults] = useState<PlaceResult[]>([]);
+    const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(
+        null
+    );
 
     useEffect(() => {
-        if (placeQuery.trim().length === 0) return
+        if (placeQuery.trim().length === 0) return;
         const timeoutId = setTimeout(() => {
-            fetchPlaces(placeQuery).then(setPlaceResults).catch(console.error)
-        }, 300)
-        return () => clearTimeout(timeoutId)
-    }, [placeQuery])
+            fetchPlaces(placeQuery).then(setPlaceResults).catch(console.error);
+        }, 300);
+        return () => clearTimeout(timeoutId);
+    }, [placeQuery]);
 
     useEffect(() => {
-        setLimit(defaultLimit.toString())
-        setRadius(defaultRadius.toString())
+        setLimit(defaultLimit.toString());
+        setRadius(defaultRadius.toString());
         setSelectedPlace({
             id: -1,
             display_name: `Lat: ${defaultLat}, Lng: ${defaultLng}`,
             location: `${defaultLat},${defaultLng}`,
-        })
-    }, [defaultLimit, defaultLat, defaultLng, defaultRadius])
+        });
+    }, [defaultLimit, defaultLat, defaultLng, defaultRadius]);
 
-    if (!isOpen) return null
+    if (!isOpen) return null;
 
     const handleSave = () => {
-        const parsedLimit = parseInt(limit, 10)
-        const parsedRadius = parseInt(radius, 10)
+        const parsedLimit = parseInt(limit, 10);
+        const parsedRadius = parseInt(radius, 10);
 
-        if (isNaN(parsedLimit) || isNaN(parsedRadius) || !selectedPlace) return
-        const [latStr, lngStr] = selectedPlace.location.split(',')
-        const lat = parseFloat(latStr)
-        const lng = parseFloat(lngStr)
-        if (isNaN(lat) || isNaN(lng)) return
-        onSave(lat, lng, parsedRadius, parsedLimit)
-    }
+        if (isNaN(parsedLimit) || isNaN(parsedRadius) || !selectedPlace) return;
+        const [latStr, lngStr] = selectedPlace.location.split(',');
+        const lat = parseFloat(latStr);
+        const lng = parseFloat(lngStr);
+        if (isNaN(lat) || isNaN(lng)) return;
+        onSave(lat, lng, parsedRadius, parsedLimit);
+    };
 
     return (
         <div
@@ -166,9 +168,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                                         padding: '0.25rem 0',
                                     }}
                                     onClick={() => {
-                                        setSelectedPlace(place)
-                                        setPlaceQuery(place.display_name)
-                                        setPlaceResults([])
+                                        setSelectedPlace(place);
+                                        setPlaceQuery(place.display_name);
+                                        setPlaceResults([]);
                                     }}
                                 >
                                     → {place.display_name}
@@ -195,7 +197,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SettingsModal
+export default SettingsModal;
