@@ -1,7 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { TopSpeciesResult } from './topSpeciesResult.ts';
-import { UseTopSpeciesOptions } from './useTopSpeciesOptions.ts';
 import { SpeciesCountResult } from './speciesCountResult.ts';
+
+export interface UseTopSpeciesOptions {
+    lat: number | undefined;
+    lng: number | undefined;
+    radius: number | undefined;
+    limit: number | undefined;
+}
 
 async function fetchTopSpeciesByLatLng(
     lat: number,
@@ -46,8 +52,22 @@ export function useTopSpecies({
 }: UseTopSpeciesOptions) {
     return useQuery<TopSpeciesResult[], Error>({
         queryKey: ['topSpecies', lat, lng, radius, limit],
-        queryFn: () => fetchTopSpeciesByLatLng(lat, lng, radius, limit),
+        queryFn: async () => {
+            if (
+                lat === undefined ||
+                lng === undefined ||
+                radius === undefined ||
+                limit === undefined
+            )
+                return [] as TopSpeciesResult[];
+            return fetchTopSpeciesByLatLng(lat, lng, radius, limit);
+        },
         staleTime: 1000 * 60 * 5,
         retry: 1,
+        enabled:
+            lat !== undefined &&
+            lng !== undefined &&
+            radius !== undefined &&
+            limit !== undefined,
     });
 }
