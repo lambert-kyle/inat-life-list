@@ -13,24 +13,28 @@ export const LifeList = (): React.ReactElement => {
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             {data && (
-                <ul>
-                    {data.map((species) => (
-                        <li key={species.id}>
-                            <h2>{species.name}</h2>
-                            <p>{species.preferred_common_name}</p>
-                            <p>{species.observations_count} observations</p>
-                            {species.wikipedia_url && (
-                                <a href={species.wikipedia_url}>Wikipedia</a>
-                            )}
-                            {/*{species.default_photo && (*/}
-                            {/*    <img*/}
-                            {/*        src={species.default_photo.thumb_url}*/}
-                            {/*        alt={species.name}*/}
-                            {/*    />*/}
-                            {/*)}*/}
-                        </li>
-                    ))}
-                </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Scientific Name</th>
+                            <th>Common Name</th>
+                            <th>Observation Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((species) => (
+                            <tr key={species.id}>
+                                <td>
+                                    <i>{species.name}</i>
+                                </td>
+                                <td>
+                                    {species.preferred_common_name || 'N/A'}
+                                </td>
+                                <td>{species.observations_count}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             )}
         </div>
     )
