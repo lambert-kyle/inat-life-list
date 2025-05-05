@@ -3,13 +3,16 @@ import React, { useState, useEffect } from 'react'
 interface PlaceResult {
     id: number
     display_name: string
+    location: string // format: "lat,lng"
 }
 
 interface SettingsModalProps {
     isOpen: boolean
     onClose: () => void
-    onSave: (placeId: number, limit: number) => void
-    defaultPlaceId: number
+    onSave: (lat: number, lng: number, radius: number, limit: number) => void
+    defaultLat: number
+    defaultLng: number
+    defaultRadius: number
     defaultLimit: number
 }
 
@@ -22,6 +25,7 @@ const fetchPlaces = async (query: string): Promise<PlaceResult[]> => {
     return json.results.map((p: any) => ({
         id: p.id,
         display_name: p.display_name,
+        location: p.location,
     }))
 }
 
@@ -29,10 +33,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     isOpen,
     onClose,
     onSave,
-    defaultPlaceId,
+    defaultLat,
+    defaultLng,
+    defaultRadius,
     defaultLimit,
 }) => {
     const [limit, setLimit] = useState(defaultLimit)
+    const [radius, setRadius] = useState(defaultRadius)
     const [placeQuery, setPlaceQuery] = useState('')
     const [placeResults, setPlaceResults] = useState<PlaceResult[]>([])
     const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null)
@@ -47,17 +54,23 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
     useEffect(() => {
         setLimit(defaultLimit)
+        setRadius(defaultRadius)
         setSelectedPlace({
-            id: defaultPlaceId,
-            display_name: `Place ID ${defaultPlaceId}`,
+            id: -1,
+            display_name: `Lat: ${defaultLat}, Lng: ${defaultLng}`,
+            location: `${defaultLat},${defaultLng}`,
         })
-    }, [defaultLimit, defaultPlaceId])
+    }, [defaultLimit, defaultLat, defaultLng, defaultRadius])
 
     if (!isOpen) return null
 
     const handleSave = () => {
-        if (limit <= 0 || !selectedPlace) return
-        onSave(selectedPlace.id, limit)
+        if (limit <= 0 || radius <= 0 || !selectedPlace) return
+        const [latStr, lngStr] = selectedPlace.location.split(',')
+        const lat = parseFloat(latStr)
+        const lng = parseFloat(lngStr)
+        if (isNaN(lat) || isNaN(lng)) return
+        onSave(lat, lng, radius, limit)
     }
 
     return (
@@ -69,6 +82,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 right: 0,
                 bottom: 0,
                 background: '#00000088',
+                zIndex: 999,
             }}
         >
             <div
@@ -92,6 +106,21 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                             value={limit}
                             onChange={(e) =>
                                 setLimit(parseInt(e.target.value, 10) || 1)
+                            }
+                        />
+                    </label>
+                </div>
+
+                <div>
+                    <label>
+                        Radius (km):
+                        <input
+                            type="number"
+                            min="1"
+                            max="50"
+                            value={radius}
+                            onChange={(e) =>
+                                setRadius(parseInt(e.target.value, 10) || 1)
                             }
                         />
                     </label>
@@ -144,7 +173,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     <button onClick={onClose}>Cancel</button>
                     <button
                         onClick={handleSave}
-                        disabled={!selectedPlace || limit <= 0}
+                        disabled={!selectedPlace || limit <= 0 || radius <= 0}
                     >
                         Save
                     </button>

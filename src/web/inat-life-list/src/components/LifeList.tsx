@@ -1,16 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useTopSpecies } from '../hooks/fetchTopObservations.ts'
 import SettingsModal from './SettingsModal'
 import { useSearchParams } from 'react-router-dom'
 
-const DEFAULT_PLACE_ID = 1292 // Erie County
+const DEFAULT_LAT = 42.9 // example: Buffalo
+const DEFAULT_LNG = -78.8
+const DEFAULT_RADIUS = 25 // in km
 const DEFAULT_LIMIT = 50
 
-const getStoredConfig = (): { placeId: number; limit: number } => {
-    const placeId = parseInt(localStorage.getItem('placeId') || '', 10)
+const getStoredConfig = (): {
+    lat: number
+    lng: number
+    radius: number
+    limit: number
+} => {
+    const lat = parseFloat(localStorage.getItem('lat') || '')
+    const lng = parseFloat(localStorage.getItem('lng') || '')
+    const radius = parseInt(localStorage.getItem('radius') || '', 10)
     const limit = parseInt(localStorage.getItem('limit') || '', 10)
+
     return {
-        placeId: isNaN(placeId) ? DEFAULT_PLACE_ID : placeId,
+        lat: isNaN(lat) ? DEFAULT_LAT : lat,
+        lng: isNaN(lng) ? DEFAULT_LNG : lng,
+        radius: isNaN(radius) ? DEFAULT_RADIUS : radius,
         limit: isNaN(limit) ? DEFAULT_LIMIT : limit,
     }
 }
@@ -19,29 +31,54 @@ export const LifeList = (): React.ReactElement => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [settingsOpen, setSettingsOpen] = useState(false)
 
-    const queryPlaceId = parseInt(searchParams.get('placeId') || '', 10)
+    const queryLat = parseFloat(searchParams.get('lat') || '')
+    const queryLng = parseFloat(searchParams.get('lng') || '')
+    const queryRadius = parseInt(searchParams.get('radius') || '', 10)
     const queryLimit = parseInt(searchParams.get('limit') || '', 10)
 
-    const { placeId: storedPlaceId, limit: storedLimit } = getStoredConfig()
+    const {
+        lat: storedLat,
+        lng: storedLng,
+        radius: storedRadius,
+        limit: storedLimit,
+    } = getStoredConfig()
 
-    const [placeId, setPlaceId] = useState(
-        isNaN(queryPlaceId) ? storedPlaceId : queryPlaceId
+    const [lat, setLat] = useState(isNaN(queryLat) ? storedLat : queryLat)
+    const [lng, setLng] = useState(isNaN(queryLng) ? storedLng : queryLng)
+    const [radius, setRadius] = useState(
+        isNaN(queryRadius) ? storedRadius : queryRadius
     )
     const [limit, setLimit] = useState(
         isNaN(queryLimit) ? storedLimit : queryLimit
     )
 
-    const { data, error, isLoading } = useTopSpecies({ placeId, limit })
+    const { data, error, isLoading } = useTopSpecies({
+        lat,
+        lng,
+        radius,
+        limit,
+    })
 
-    const handleSaveSettings = (newPlaceId: number, newLimit: number) => {
-        setPlaceId(newPlaceId)
+    const handleSaveSettings = (
+        newLat: number,
+        newLng: number,
+        newRadius: number,
+        newLimit: number
+    ) => {
+        setLat(newLat)
+        setLng(newLng)
+        setRadius(newRadius)
         setLimit(newLimit)
 
-        localStorage.setItem('placeId', newPlaceId.toString())
+        localStorage.setItem('lat', newLat.toString())
+        localStorage.setItem('lng', newLng.toString())
+        localStorage.setItem('radius', newRadius.toString())
         localStorage.setItem('limit', newLimit.toString())
 
         setSearchParams({
-            placeId: newPlaceId.toString(),
+            lat: newLat.toString(),
+            lng: newLng.toString(),
+            radius: newRadius.toString(),
             limit: newLimit.toString(),
         })
         setSettingsOpen(false)
@@ -62,7 +99,8 @@ export const LifeList = (): React.ReactElement => {
                 </button>
             </div>
             <span>
-                Showing top {limit} species for place {placeId}
+                Showing top {limit} species within {radius} km of (
+                {lat.toFixed(2)}, {lng.toFixed(2)})
             </span>
 
             {isLoading && <p>Loading...</p>}
@@ -114,7 +152,9 @@ export const LifeList = (): React.ReactElement => {
                 isOpen={settingsOpen}
                 onClose={() => setSettingsOpen(false)}
                 onSave={handleSaveSettings}
-                defaultPlaceId={placeId}
+                defaultLat={lat}
+                defaultLng={lng}
+                defaultRadius={radius}
                 defaultLimit={limit}
             />
         </div>

@@ -16,7 +16,9 @@ interface TopSpeciesResult {
 }
 
 interface UseTopSpeciesOptions {
-    placeId: number
+    lat: number
+    lng: number
+    radius: number
     limit: number
 }
 
@@ -37,19 +39,21 @@ interface SpeciesCountResult {
     }
 }
 
-async function fetchTopSpecies(
-    placeId: number,
+async function fetchTopSpeciesByLatLng(
+    lat: number,
+    lng: number,
+    radius: number,
     limit: number
 ): Promise<TopSpeciesResult[]> {
     const url = new URL(
         'https://api.inaturalist.org/v1/observations/species_counts'
     )
-    url.searchParams.set('place_id', placeId.toString())
+    url.searchParams.set('lat', lat.toString())
+    url.searchParams.set('lng', lng.toString())
+    url.searchParams.set('radius', radius.toString()) // in kilometers
     url.searchParams.set('verifiable', 'true')
     url.searchParams.set('spam', 'false')
     url.searchParams.set('locale', 'en')
-    // Not sure what preferred_place_id is for, maybe also pass placeid here?
-    // url.searchParams.set('preferred_place_id', ?)
     url.searchParams.set('per_page', limit.toString())
     url.searchParams.set('order_by', 'observation_count')
 
@@ -70,11 +74,16 @@ async function fetchTopSpecies(
     }))
 }
 
-export function useTopSpecies({ placeId, limit }: UseTopSpeciesOptions) {
+export function useTopSpecies({
+    lat,
+    lng,
+    radius,
+    limit,
+}: UseTopSpeciesOptions) {
     return useQuery<TopSpeciesResult[], Error>({
-        queryKey: ['topSpecies', placeId, limit],
-        queryFn: () => fetchTopSpecies(placeId, limit),
-        staleTime: 1000 * 60 * 5, // cache for 5 minutes
-        retry: 1, // retry once on failure
+        queryKey: ['topSpecies', lat, lng, radius, limit],
+        queryFn: () => fetchTopSpeciesByLatLng(lat, lng, radius, limit),
+        staleTime: 1000 * 60 * 5,
+        retry: 1,
     })
 }
