@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTopSpecies } from '../hooks/useTopSpecies.ts';
 import SettingsModal from '../modules/settings/SettingsModal.tsx';
 import { useSettings } from '../modules/settings/useSettings.tsx';
+import { useUserObservations } from '../modules/observations/useUserObservations.ts';
 
 export const LifeList = (): React.ReactElement => {
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -13,6 +14,8 @@ export const LifeList = (): React.ReactElement => {
         radius: radiusKm,
         limit,
     });
+
+    const { data: userTaxa } = useUserObservations(userId);
 
     React.useEffect(() => {
         console.log({ latitude, limit, longitude, radiusKm, userId });
@@ -51,37 +54,44 @@ export const LifeList = (): React.ReactElement => {
                             <th>Scientific Name</th>
                             <th>Common Name</th>
                             <th>Observation Count</th>
+                            <th>Seen?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((species) => (
-                            <tr key={species.id}>
-                                <td>
-                                    {species.default_photo?.square_url ? (
-                                        <img
-                                            src={
-                                                species.default_photo.square_url
-                                            }
-                                            alt={
-                                                species.preferred_common_name ||
-                                                species.name
-                                            }
-                                            width="50"
-                                            height="50"
-                                        />
-                                    ) : (
-                                        'N/A'
-                                    )}
-                                </td>
-                                <td>
-                                    <i>{species.name}</i>
-                                </td>
-                                <td>
-                                    {species.preferred_common_name || 'N/A'}
-                                </td>
-                                <td>{species.observations_count}</td>
-                            </tr>
-                        ))}
+                        {data.map((species) => {
+                            const seen = userTaxa?.has(species.id);
+
+                            return (
+                                <tr key={species.id}>
+                                    <td>
+                                        {species.default_photo?.square_url ? (
+                                            <img
+                                                src={
+                                                    species.default_photo
+                                                        .square_url
+                                                }
+                                                alt={
+                                                    species.preferred_common_name ||
+                                                    species.name
+                                                }
+                                                width="50"
+                                                height="50"
+                                            />
+                                        ) : (
+                                            'N/A'
+                                        )}
+                                    </td>
+                                    <td>
+                                        <i>{species.name}</i>
+                                    </td>
+                                    <td>
+                                        {species.preferred_common_name || 'N/A'}
+                                    </td>
+                                    <td>{species.observations_count}</td>
+                                    <td>{seen ? '✅ Seen' : '❌ Not Seen'}</td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             )}

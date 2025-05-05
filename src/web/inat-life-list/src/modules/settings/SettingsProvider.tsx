@@ -1,7 +1,7 @@
 import React from 'react';
 import { SettingsContext, SettingsContextType } from './SettingsContext.tsx';
 import usePersistedState from '../common/usePersistedState.ts';
-import usePlace from './usePlace.ts';
+import usePlace from './place/usePlace.ts';
 
 export const SettingsProvider: React.FC<{
     children: React.ReactNode;

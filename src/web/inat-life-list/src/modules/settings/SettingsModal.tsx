@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSettings } from './useSettings.tsx';
-import PlaceSelector from './PlaceSelector.tsx';
-import Place from './Place.ts';
-import usePlace from './usePlace.ts';
-import UserSelector from './UserSelector.tsx';
-import User from './User.ts';
-import useUser from './useUser.ts';
+import PlaceSelector from './place/PlaceSelector.tsx';
+import Place from './place/Place.ts';
+import usePlace from './place/usePlace.ts';
+import UserSelector from './user/UserSelector.tsx';
+import User from './user/User.ts';
+import useUser from './user/useUser.ts';
 
 interface SettingsModalProps {
     isOpen: boolean;
