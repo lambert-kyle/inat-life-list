@@ -16,6 +16,9 @@ export const SettingsProvider: React.FC<{
     const [radiusKm, setRadiusKm] = usePersistedState<
         SettingsContextType['radiusKm']
     >('radiusKm', 50);
+    const [userId, setUserId] = usePersistedState<
+        SettingsContextType['userId']
+    >('userId', undefined);
 
     // HACK to sync lat/lng from the data
     // Someday might replace with a maps integration that does genuine get/set of lat/lng
@@ -55,11 +58,13 @@ export const SettingsProvider: React.FC<{
                 longitude,
                 placeId,
                 radiusKm,
+                userId,
                 setLatitude,
                 setLimit,
                 setLongitude,
                 setPlaceId,
                 setRadiusKm,
+                setUserId,
             }}
         >
             {children}

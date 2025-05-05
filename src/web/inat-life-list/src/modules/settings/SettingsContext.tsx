@@ -7,11 +7,13 @@ export interface SettingsContextType {
     longitude: number | undefined;
     placeId: string | undefined;
     radiusKm: number | undefined;
+    userId: number | undefined;
     setLatitude: (newValue: number) => void;
     setLimit: (newValue: number) => void;
     setLongitude: (newValue: number) => void;
     setPlaceId: (newValue: string | undefined) => void;
     setRadiusKm: (newValue: number) => void;
+    setUserId: (newValue: number | undefined) => void;
 }
 
 const showError = (methodName: string) => {
@@ -29,9 +31,11 @@ export const SettingsContext = React.createContext<SettingsContextType>({
     longitude: undefined,
     placeId: undefined,
     radiusKm: undefined,
+    userId: undefined,
     setLatitude: () => showError('setLatitude'),
     setLimit: () => showError('setLimit'),
     setLongitude: () => showError('setLongitude'),
     setPlaceId: () => showError('setPlaceId'),
     setRadiusKm: () => showError('setRadiusKm'),
+    setUserId: () => showError('setUserId'),
 });

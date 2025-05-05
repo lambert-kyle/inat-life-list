@@ -3,6 +3,9 @@ import { useSettings } from './useSettings.tsx';
 import PlaceSelector from './PlaceSelector.tsx';
 import Place from './Place.ts';
 import usePlace from './usePlace.ts';
+import UserSelector from './UserSelector.tsx';
+import User from './User.ts';
+import useUser from './useUser.ts';
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -10,8 +13,16 @@ interface SettingsModalProps {
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
-    const { limit, placeId, radiusKm, setLimit, setPlaceId, setRadiusKm } =
-        useSettings();
+    const {
+        limit,
+        placeId,
+        radiusKm,
+        userId,
+        setLimit,
+        setPlaceId,
+        setRadiusKm,
+        setUserId,
+    } = useSettings();
     const [selectedLimit, setSelectedLimit] = useState(limit);
     const [selectedRadius, setSelectedRadius] = useState(radiusKm);
 
@@ -20,19 +31,31 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         place
     );
 
+    const { data: user } = useUser(userId);
+    const [selectedUser, setSelectedUser] = useState<User | undefined>(user);
+
     const handleSave = React.useCallback(() => {
-        if (!selectedLimit || !selectedRadius || !selectedPlace) return;
+        if (
+            !selectedLimit ||
+            !selectedRadius ||
+            !selectedPlace ||
+            !selectedUser
+        )
+            return;
 
         setLimit(selectedLimit);
         setRadiusKm(selectedRadius);
+        setUserId(selectedUser.id);
         setPlaceId(selectedPlace?.id.toString());
         onClose();
     }, [
         selectedLimit,
         selectedRadius,
         selectedPlace,
+        selectedUser,
         setLimit,
         setRadiusKm,
+        setUserId,
         setPlaceId,
         onClose,
     ]);
@@ -106,6 +129,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                     place={selectedPlace}
                     setPlace={setSelectedPlace}
                 />
+                <UserSelector user={selectedUser} setUser={setSelectedUser} />
 
                 <div
                     style={{
