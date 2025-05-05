@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTopSpecies } from '../hooks/useTopSpecies.ts';
-import SettingsModal from '../modules/settings/SettingsModal.tsx';
 import { useSettings } from '../modules/settings/useSettings.tsx';
 import { useUserObservations } from '../modules/observations/useUserObservations.ts';
 import useUser from '../modules/settings/user/useUser.ts';
+import SettingsBar from '../modules/settings/SettingsBar.tsx';
 
 export const LifeList = (): React.ReactElement => {
-    const [settingsOpen, setSettingsOpen] = useState(false);
     const { latitude, limit, longitude, radiusKm, userId } = useSettings();
 
     const {
@@ -50,20 +49,13 @@ export const LifeList = (): React.ReactElement => {
                 }}
             >
                 <h1>iNaturalist Life List</h1>
-                <button
-                    onClick={() => setSettingsOpen(true)}
-                    title="Settings"
-                    style={{ fontSize: 'large' }}
-                >
-                    ⚙️
-                </button>
             </div>
+            <SettingsBar />
             <span>
                 Showing top {limit} species within {radiusKm} km of (
                 {latitude?.toFixed(2)}, {longitude?.toFixed(2)}) and whether{' '}
                 {user?.login} has observed them
-            </span>
-
+            </span>{' '}
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             {topSpecies && (
@@ -108,11 +100,6 @@ export const LifeList = (): React.ReactElement => {
                     </tbody>
                 </table>
             )}
-
-            <SettingsModal
-                isOpen={settingsOpen}
-                onClose={() => setSettingsOpen(false)}
-            />
         </div>
     );
 };

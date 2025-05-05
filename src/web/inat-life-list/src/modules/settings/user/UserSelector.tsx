@@ -58,13 +58,17 @@ export const UserSelector: React.FC<{
                 <div style={{ padding: '.25em' }}>
                     <ul
                         style={{
-                            maxHeight: '150px',
-                            overflowY: 'auto',
-                            listStyle: 'none',
-                            padding: 0,
-                            marginTop: '0.5rem',
+                            backgroundColor: 'white',
                             border: '1px solid grey',
                             borderRadius: '4px',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                            listStyle: 'none',
+                            marginTop: '0.5rem',
+                            maxHeight: '150px',
+                            overflowY: 'auto',
+                            padding: 0,
+                            position: 'absolute',
+                            zIndex: 20,
                         }}
                     >
                         {UserResults.map((user) => (
