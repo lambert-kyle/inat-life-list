@@ -54,6 +54,22 @@ export const LifeList = (): React.ReactElement => {
         [topSpecies, userTaxa]
     );
 
+    const [sortBy, setSortBy] = React.useState<'observationCount' | 'seen'>(
+        'observationCount'
+    );
+
+    const sortedResults = React.useMemo(() => {
+        if (!results) return [];
+        return [...results].sort((a, b) => {
+            if (sortBy === 'observationCount') {
+                return b.observationsCount - a.observationsCount;
+            } else if (sortBy === 'seen') {
+                return a.seen === b.seen ? 0 : a.seen ? 1 : -1;
+            }
+            return 0;
+        });
+    }, [results, sortBy]);
+
     const paramsAreMissing =
         !limit || !radiusKm || !latitude || !longitude || !userId;
 
@@ -78,6 +94,37 @@ export const LifeList = (): React.ReactElement => {
                     {userObservationsError.message}
                 </p>
             )}
+            {/* Sort By Dropdown */}
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginBottom: '1rem',
+                }}
+            >
+                <label
+                    htmlFor="sortBy"
+                    style={{ marginRight: '0.5rem', fontWeight: 'bold' }}
+                >
+                    Sort by:
+                </label>
+                <select
+                    id="sortBy"
+                    value={sortBy}
+                    onChange={(e) =>
+                        setSortBy(e.target.value as 'observationCount' | 'seen')
+                    }
+                    style={{
+                        padding: '0.5rem',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                    }}
+                >
+                    <option value="observationCount">Observation Count</option>
+                    <option value="seen">Seen</option>
+                </select>
+            </div>
             {!isLoading && (
                 <>
                     <table
@@ -162,7 +209,7 @@ export const LifeList = (): React.ReactElement => {
                             </tr>
                         </thead>
                         <tbody>
-                            {results?.map((r) => (
+                            {sortedResults?.map((r) => (
                                 <tr
                                     key={r.id}
                                     style={{
