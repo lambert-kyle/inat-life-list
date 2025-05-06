@@ -154,81 +154,75 @@ export const LifeList = (): React.ReactElement => {
                                     <td
                                         style={{
                                             border: '1px solid #ccc',
-                                            placeItems: 'center',
+                                            padding: '8px',
                                         }}
                                     >
-                                        <div style={{ display: 'flex' }}>
-                                            <div
-                                                style={{
-                                                    height: '100%',
-                                                    marginRight: '0.5rem',
-                                                }}
-                                            >
-                                                {r.photoUrl ? (
-                                                    <a
-                                                        href={r.iNatLink}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            {r.photoUrl ? (
+                                                <a
+                                                    href={r.iNatLink}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{
+                                                        textDecoration: 'none',
+                                                        color: 'inherit',
+                                                        marginRight: '1em',
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={r.photoUrl}
+                                                        alt={
+                                                            r.commonName ||
+                                                            r.scientificName
+                                                        }
+                                                        width="50"
+                                                        height="50"
                                                         style={{
-                                                            textDecoration:
-                                                                'none',
-                                                            color: 'inherit',
+                                                            borderRadius: '4px',
+                                                        }}
+                                                    />
+                                                </a>
+                                            ) : (
+                                                <div
+                                                    style={{
+                                                        width: '50px',
+                                                        height: '50px',
+                                                        marginRight: '1em',
+                                                        backgroundColor:
+                                                            '#f0f0f0',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        borderRadius: '4px',
+                                                    }}
+                                                >
+                                                    N/A
+                                                </div>
+                                            )}
+                                            <div style={{ marginLeft: '1em' }}>
+                                                {r.commonName && (
+                                                    <div
+                                                        style={{
+                                                            fontWeight: 'bold',
                                                         }}
                                                     >
-                                                        <img
-                                                            src={r.photoUrl}
-                                                            alt={
-                                                                r.commonName ||
-                                                                r.scientificName
-                                                            }
-                                                            width="50"
-                                                            height="50"
-                                                        />
-                                                    </a>
-                                                ) : (
-                                                    'N/A'
-                                                )}
-                                            </div>
-                                            <a
-                                                href={r.iNatLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                style={{
-                                                    textDecoration: 'none',
-                                                    color: 'inherit',
-                                                }}
-                                            >
-                                                {r.commonName ? (
-                                                    <>
                                                         {r.commonName}
-                                                        <br />
-                                                    </>
-                                                ) : (
-                                                    ''
+                                                    </div>
                                                 )}
-                                                <i
+                                                <div
                                                     style={{
-                                                        fontSize: 'small',
+                                                        fontStyle: 'italic',
+                                                        fontSize: '0.9em',
                                                     }}
                                                 >
                                                     {r.scientificName}
-                                                </i>
-                                            </a>
-                                            <div
-                                                style={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    placeItems: 'center',
-                                                    textAlign: 'center',
-                                                }}
-                                            >
-                                                <span
-                                                    style={{
-                                                        fontSize: 'larger',
-                                                    }}
-                                                >
-                                                    📸
-                                                </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
