@@ -40,6 +40,9 @@ export const LifeList = (): React.ReactElement => {
         [topSpecies, userTaxa]
     );
 
+    const paramsAreMissing =
+        !limit || !radiusKm || !latitude || !longitude || !userId;
+
     return (
         <div style={{ marginLeft: '300px' /* to offset sidebar */ }}>
             <SettingsSidebar />
@@ -52,16 +55,19 @@ export const LifeList = (): React.ReactElement => {
             >
                 <h1>iNaturalist Life List</h1>
             </div>
-            <span
-                style={{
-                    padding: '0.5em',
-                    margin: '0.5em',
-                }}
-            >
-                Showing top {limit} species within {radiusKm} km of (
-                {latitude?.toFixed(2)}, {longitude?.toFixed(2)}) and whether{' '}
-                {user?.login} has observed them
-            </span>
+            {paramsAreMissing && 'Choose a location and user in the side bar!'}
+            {!paramsAreMissing && (
+                <span
+                    style={{
+                        padding: '0.5em',
+                        margin: '0.5em',
+                    }}
+                >
+                    Showing top {limit} species within {radiusKm} km of (
+                    {latitude?.toFixed(2)}, {longitude?.toFixed(2)}) and whether{' '}
+                    {user?.login} has observed them
+                </span>
+            )}
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             {topSpecies && (

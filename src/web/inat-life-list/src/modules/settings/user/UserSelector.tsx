@@ -76,8 +76,19 @@ export const UserSelector: React.FC<{
                             padding: 0,
                             position: 'absolute',
                             zIndex: 20,
+                            width: '85%',
                         }}
                     >
+                        {UserResults.length === 0 && (
+                            <li
+                                style={{
+                                    padding: '0.5rem',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                No matching users
+                            </li>
+                        )}
                         {UserResults.map((user) => (
                             <li
                                 key={user.id}

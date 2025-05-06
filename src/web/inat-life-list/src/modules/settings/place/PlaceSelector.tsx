@@ -74,8 +74,19 @@ export const PlaceSelector: React.FC<{
                             padding: 0,
                             position: 'absolute',
                             zIndex: 20,
+                            width: '85%',
                         }}
                     >
+                        {placeResults.length === 0 && (
+                            <li
+                                style={{
+                                    padding: '0.5rem',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                No matching places
+                            </li>
+                        )}
                         {placeResults.map((place) => (
                             <li
                                 key={place.id}
