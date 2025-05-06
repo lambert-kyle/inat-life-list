@@ -26,17 +26,27 @@ const AppPage: React.FC = () => {
 
             <div
                 style={{
-                    backgroundColor: '#e0f7fa', // Soft cyan background
+                    backgroundColor: 'rgb(246 255 253)', // Soft cyan background
                     minHeight: '100vh',
                     padding: '2rem',
                     width: '100%',
                 }}
             >
+                <h1
+                    style={{
+                        width: '100%',
+
+                        textAlign: 'center',
+                    }}
+                >
+                    iNaturalist Life List
+                </h1>
+
                 <div
                     style={{
-                        backgroundColor: 'white', // White block
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                        // backgroundColor: 'white', // White block
+                        // borderRadius: '8px',
+                        // boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                         padding: '2rem',
                         maxWidth: '60%',
                         margin: '0 auto',
