@@ -30,7 +30,6 @@ export const LifeList = (): React.ReactElement => {
     React.useEffect(() => {
         console.log({ latitude, limit, longitude, radiusKm, userId });
     }, [latitude, limit, longitude, radiusKm, userId]);
-    const { data: user } = useUser(userId);
 
     const results = React.useMemo(
         () =>
@@ -58,19 +57,8 @@ export const LifeList = (): React.ReactElement => {
                     alignItems: 'center',
                 }}
             ></div>
-            {/*{paramsAreMissing && 'Choose a location and user in the side bar!'}*/}
-            {/*{!paramsAreMissing && (*/}
-            {/*    <span*/}
-            {/*        style={{*/}
-            {/*            padding: '0.5em',*/}
-            {/*            margin: '0.5em',*/}
-            {/*        }}*/}
-            {/*    >*/}
-            {/*        Showing top {limit} species within {radiusKm} km of (*/}
-            {/*        {latitude?.toFixed(2)}, {longitude?.toFixed(2)}) and whether{' '}*/}
-            {/*        {user?.login} has observed them*/}
-            {/*    </span>*/}
-            {/*)}*/}
+            {paramsAreMissing && 'Choose a location and user in the side bar!'}
+
             {isLoading && <p>Loading...</p>}
             {topSpeciesError && (
                 <p>Error loading top species: {topSpeciesError.message}</p>

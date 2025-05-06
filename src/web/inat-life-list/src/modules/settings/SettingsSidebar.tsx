@@ -29,7 +29,7 @@ const SettingsSidebar: React.FC = () => {
         place
     );
     const [selectedUser, setSelectedUser] = useState<User | undefined>(user);
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         setSelectedPlace(place);
@@ -58,10 +58,27 @@ const SettingsSidebar: React.FC = () => {
         setRadiusKm(selectedRadius);
         setPlaceId(selectedPlace.id.toString());
         setUserId(selectedUser.id);
+        setIsOpen(false);
     };
 
     return (
         <>
+            {/* Overlay for blur effect */}
+            {isOpen && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        background: 'rgba(189, 227, 255, 0.3)', // Semi-transparent overlay
+                        backdropFilter: 'blur(5px)', // Blur effect
+                        zIndex: 999, // Below the sidebar but above the rest of the page
+                    }}
+                    onClick={() => setIsOpen(false)} // Close sidebar when clicking outside
+                ></div>
+            )}
             <div
                 style={{
                     position: 'fixed',
@@ -75,6 +92,7 @@ const SettingsSidebar: React.FC = () => {
                     alignItems: 'center',
                     display: 'flex',
                     fontSize: 'large',
+                    color: isOpen ? 'black' : 'rgb(1 81 79)',
                 }}
             >
                 <Hamburger toggled={isOpen} toggle={setIsOpen} />
@@ -87,15 +105,14 @@ const SettingsSidebar: React.FC = () => {
                     left: isOpen ? 0 : '-320px',
                     width: '300px',
                     height: '100%',
-                    background: 'rgb(248 248 248)',
-                    borderRight: '1px solid #ccc',
-                    padding: '1rem',
+                    background: 'white',
                     overflowY: 'auto',
                     zIndex: 1000,
                     transition: 'left 0.3s ease',
+                    padding: isOpen ? '1rem' : '0rem',
                 }}
             >
-                <h2>Settings</h2>
+                <h2 style={{color: 'rgb(1 81 79)'}}>Settings</h2>
 
                 <div style={{ marginBottom: '1rem' }}>
                     <label htmlFor="limit">Limit (number of species):</label>
@@ -159,7 +176,7 @@ const SettingsSidebar: React.FC = () => {
                         marginTop: '1rem',
                         width: '100%',
                         padding: '0.75rem',
-                        background: isDirty ? '#007bff' : '#ccc',
+                        background: 'rgb(1 81 79)',
                         color: 'white',
                         border: 'none',
                         borderRadius: '4px',
@@ -168,6 +185,40 @@ const SettingsSidebar: React.FC = () => {
                 >
                     Save
                 </button>
+                <div
+                    style={{
+                        position: 'absolute',
+                        bottom: '2rem',
+                        left: '1rem',
+                        right: '1rem',
+                        fontSize: '0.9rem',
+                        textAlign: 'center',
+                        color: '#555',
+                    }}
+                >
+                    <p style={{ marginBottom: '-1em' }}>
+                        Made by{' '}
+                        <a
+                            href="https://github.com/lambert-kyle"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#007bff', textDecoration: 'none' }}
+                        >
+                            Kyle Lambert
+                        </a>
+                    </p>
+                    <p>
+                        View the project on{' '}
+                        <a
+                            href="https://github.com/lambert-kyle/inat-life-list"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#007bff', textDecoration: 'none' }}
+                        >
+                            GitHub
+                        </a>
+                    </p>
+                </div>
             </div>
         </>
     );

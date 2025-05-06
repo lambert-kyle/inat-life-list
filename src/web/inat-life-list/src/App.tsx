@@ -26,7 +26,6 @@ const AppPage: React.FC = () => {
 
             <div
                 style={{
-                    backgroundColor: 'rgb(246 255 253)', // Soft cyan background
                     minHeight: '100vh',
                     padding: '2rem',
                     width: '100%',
@@ -35,8 +34,8 @@ const AppPage: React.FC = () => {
                 <h1
                     style={{
                         width: '100%',
-
                         textAlign: 'center',
+                        color: 'rgb(1 81 79)',
                     }}
                 >
                     iNaturalist Life List
