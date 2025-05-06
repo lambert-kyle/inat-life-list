@@ -148,12 +148,21 @@ export const LifeList = (): React.ReactElement => {
                                 <tr
                                     key={r.id}
                                     style={{
-                                        // backgroundColor: r.seen
-                                        //     ? 'rgba(0, 255, 50, 0.1'
-                                        //     : 'transparent',
-                                        opacity: r.seen ? 0.85 : 1, // Fade rows with seen == true
                                         transition: 'opacity 0.3s',
-                                        borderBottom: '1px solid #e0e0e0',
+                                        ...(r.seen
+                                            ? {
+                                                  backgroundColor:
+                                                      'rgba(0, 255, 50, 0.1)',
+                                                  opacity: 0.85,
+                                                  border: '2px solid #529715',
+                                              }
+                                            : {
+                                                  backgroundColor:
+                                                      'transparent',
+                                                  opacity: 1,
+                                                  borderBottom:
+                                                      '1px solid #e0e0e0',
+                                              }),
                                     }}
                                 >
                                     <td
