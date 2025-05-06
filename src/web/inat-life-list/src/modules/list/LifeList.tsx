@@ -1,9 +1,9 @@
 import React from 'react';
-import { useTopSpecies } from '../hooks/useTopSpecies.ts';
-import { useSettings } from '../modules/settings/useSettings.tsx';
-import { useUserObservations } from '../modules/observations/useUserObservations.ts';
-import useUser from '../modules/settings/user/useUser.ts';
-import SettingsSidebar from '../modules/settings/SettingsSidebar.tsx';
+import { useTopSpecies } from '../observations/useTopSpecies.ts';
+import { useSettings } from '../settings/useSettings.tsx';
+import { useUserObservations } from '../observations/useUserObservations.ts';
+import useUser from '../settings/user/useUser.ts';
+import SettingsSidebar from '../settings/SettingsSidebar.tsx';
 
 export const LifeList = (): React.ReactElement => {
     const { latitude, limit, longitude, radiusKm, userId } = useSettings();
@@ -84,7 +84,7 @@ export const LifeList = (): React.ReactElement => {
                     {userObservationsError.message}
                 </p>
             )}
-            {topSpecies && (
+            {!isLoading && (
                 <table>
                     <thead>
                         <tr>

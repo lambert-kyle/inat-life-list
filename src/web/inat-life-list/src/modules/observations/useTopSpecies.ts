@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { TopSpeciesResult } from './topSpeciesResult.ts';
-import { SpeciesCountResult } from './speciesCountResult.ts';
+import { TopSpeciesResult } from './TopSpeciesResult.ts';
+import { SpeciesCountResult } from './SpeciesCountResult.ts';
 
 export interface UseTopSpeciesOptions {
     lat: number | undefined;

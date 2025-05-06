@@ -1,10 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-
-interface ObservedTaxon {
-    taxon: {
-        id: number;
-    };
-}
+import { ObservedTaxon } from './ObservedTaxon.ts';
 
 const fetchUserObservations = async (
     userId: number | undefined
