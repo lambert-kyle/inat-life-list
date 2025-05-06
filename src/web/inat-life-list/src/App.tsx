@@ -92,7 +92,7 @@ const AppPage: React.FC = () => {
 
                 <div
                     style={{
-                        maxWidth: '75%',
+
                         margin: '0 auto',
                     }}
                 >
