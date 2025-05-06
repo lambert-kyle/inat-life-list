@@ -92,7 +92,6 @@ const AppPage: React.FC = () => {
 
                 <div
                     style={{
-
                         margin: '0 auto',
                     }}
                 >
