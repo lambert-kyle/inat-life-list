@@ -8,7 +8,15 @@ import UserSelector from './user/UserSelector.tsx';
 import User from './user/User.ts';
 import useUser from './user/useUser.ts';
 
-const SettingsSidebar: React.FC = () => {
+interface SettingsSidebarProps {
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
+    isOpen,
+    setIsOpen,
+}) => {
     const {
         limit,
         placeId,
@@ -29,7 +37,6 @@ const SettingsSidebar: React.FC = () => {
         place
     );
     const [selectedUser, setSelectedUser] = useState<User | undefined>(user);
-    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         setSelectedPlace(place);
@@ -61,8 +68,8 @@ const SettingsSidebar: React.FC = () => {
         setIsOpen(false);
     };
 
-    // reset sidebar state when closing
-    React.useEffect(() => {
+    // Reset sidebar state when closing
+    useEffect(() => {
         if (!isOpen) {
             setSelectedLimit(limit);
             setSelectedRadius(radiusKm);

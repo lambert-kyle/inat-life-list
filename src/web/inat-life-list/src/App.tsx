@@ -4,6 +4,9 @@ import LifeList from './modules/list/LifeList.tsx';
 import { BrowserRouter } from 'react-router-dom';
 import { SettingsProvider } from './modules/settings/SettingsProvider.tsx';
 import SettingsSidebar from './modules/settings/SettingsSidebar.tsx';
+import { useSettings } from './modules/settings/useSettings.tsx';
+import usePlace from './modules/settings/place/usePlace.ts';
+import useUser from './modules/settings/user/useUser.ts';
 
 function App() {
     const queryClient = new QueryClient();
@@ -20,9 +23,36 @@ function App() {
 }
 
 const AppPage: React.FC = () => {
+    const { limit, radiusKm, placeId, userId } = useSettings();
+    const { data: place } = usePlace(placeId);
+    const { data: user } = useUser(userId);
+
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    const SettingValue: React.FC<{ children: React.ReactNode }> = ({
+        children,
+    }) => (
+        <span
+            style={{
+                color: 'blue',
+                cursor: 'pointer',
+                textDecoration: 'none', // No underline by default
+            }}
+            onMouseEnter={(e) =>
+                (e.currentTarget.style.textDecoration = 'underline')
+            }
+            onMouseLeave={(e) =>
+                (e.currentTarget.style.textDecoration = 'none')
+            }
+            onClick={() => setIsOpen(true)} // Open the settings modal
+        >
+            {children}
+        </span>
+    );
+
     return (
         <div style={{ display: 'flex' }}>
-            <SettingsSidebar />
+            <SettingsSidebar setIsOpen={setIsOpen} isOpen={isOpen} />
 
             <div
                 style={{
@@ -40,6 +70,25 @@ const AppPage: React.FC = () => {
                 >
                     iNaturalist Life List
                 </h1>
+                <h2
+                    style={{
+                        width: '100%',
+                        textAlign: 'center',
+                    }}
+                >
+                    Showing the <SettingValue>{limit}</SettingValue> most
+                    observed taxa within <SettingValue>{radiusKm}</SettingValue>{' '}
+                    km of <SettingValue>{place?.display_name}</SettingValue>
+                </h2>
+                <h3
+                    style={{
+                        width: '100%',
+                        textAlign: 'center',
+                    }}
+                >
+                    <SettingValue>{user?.login}</SettingValue> has observed # of
+                    the <SettingValue>{limit}</SettingValue>
+                </h3>
 
                 <div
                     style={{
