@@ -30,6 +30,13 @@ export const PlaceSelector: React.FC<{
         return () => clearTimeout(timeoutId);
     }, [placeQuery]);
 
+    useEffect(() => {
+        const displayName = place?.display_name;
+        if (displayName && displayName !== placeQuery) {
+            setPlaceQuery(place.display_name);
+        }
+    }, [place?.display_name, placeQuery]);
+
     return (
         <div style={{ marginBottom: '1rem' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem' }}>

@@ -32,6 +32,13 @@ export const UserSelector: React.FC<{
         return () => clearTimeout(timeoutId);
     }, [userQuery]);
 
+    useEffect(() => {
+        const login = user?.login;
+        if (login && login !== userQuery) {
+            setUserQuery(user.login);
+        }
+    }, [user?.login, userQuery]);
+
     return (
         <div style={{ marginBottom: '1rem' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem' }}>
