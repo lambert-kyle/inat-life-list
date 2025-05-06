@@ -85,13 +85,6 @@ export const LifeList = (): React.ReactElement => {
 
     return (
         <div>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
-            ></div>
             {paramsAreMissing && 'Choose a location and user in the side bar!'}
 
             {isLoading && <p>Loading...</p>}
@@ -150,110 +143,64 @@ export const LifeList = (): React.ReactElement => {
                             textAlign: 'left',
                         }}
                     >
-                        <thead
-                            style={
-                                {
-                                    // color: 'rgb(1 81 79)'
-                                }
-                            }
-                        >
-                            <tr>
-                                <th
-                                    style={{
-                                        border: '1px solid #ccc',
-                                        padding: '8px',
-                                        textAlign: 'center',
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            height: '100%',
-                                            width: '100%',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        {user?.icon_url ? (
-                                            <a
-                                                href={`https://www.inaturalist.org/users/${user.id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                style={{
-                                                    textDecoration: 'none',
-                                                }}
-                                            >
-                                                <img
-                                                    src={user.icon_url}
-                                                    alt={user.name}
-                                                    width="50"
-                                                    height="50"
-                                                    style={{
-                                                        borderRadius: '50%',
-                                                        cursor: 'pointer',
-                                                    }}
-                                                />
-                                            </a>
-                                        ) : (
-                                            <a
-                                                href={`https://www.inaturalist.org/users/${userId}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                <span>{user?.login ?? ''}</span>
-                                            </a>
-                                        )}
-                                    </div>
-                                </th>
-                                <th
-                                    style={{
-                                        border: '1px solid #ccc',
-                                        padding: '8px',
-                                    }}
-                                >
-                                    Taxon
-                                </th>
-                                <th
-                                    style={{
-                                        border: '1px solid #ccc',
-                                        padding: '8px',
-                                        textAlign: 'center',
-                                    }}
-                                >
-                                    Community Observations
-                                </th>
-                            </tr>
-                        </thead>
                         <tbody>
                             {sortedResults?.map((r) => (
                                 <tr
                                     key={r.id}
                                     style={{
-                                        backgroundColor: r.seen
-                                            ? 'rgba(0, 255, 50, 0.1'
-                                            : 'transparent',
+                                        // backgroundColor: r.seen
+                                        //     ? 'rgba(0, 255, 50, 0.1'
+                                        //     : 'transparent',
                                         opacity: r.seen ? 0.85 : 1, // Fade rows with seen == true
                                         transition: 'opacity 0.3s',
+                                        borderBottom: '1px solid #e0e0e0',
                                     }}
                                 >
                                     <td
                                         style={{
-                                            border: '1px solid #ccc',
                                             textAlign: 'center',
+                                            padding: '1rem 0',
                                         }}
                                     >
-                                        <div
-                                            style={{
-                                                fontSize: 'x-large',
-                                                textAlign: 'center',
-                                            }}
-                                        >
-                                            {r.seen && '✅'}
-                                        </div>
+                                        {r.seen && (
+                                            <>
+                                                {user?.icon_url ? (
+                                                    <a
+                                                        href={`https://www.inaturalist.org/users/${user.id}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            textDecoration:
+                                                                'none',
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={user.icon_url}
+                                                            alt={user.name}
+                                                            width="40"
+                                                            height="40"
+                                                            style={{
+                                                                borderRadius:
+                                                                    '50%',
+                                                                cursor: 'pointer',
+                                                            }}
+                                                        />
+                                                    </a>
+                                                ) : (
+                                                    <div
+                                                        style={{
+                                                            fontSize: 'x-large',
+                                                            textAlign: 'center',
+                                                        }}
+                                                    >
+                                                        ✅
+                                                    </div>
+                                                )}
+                                            </>
+                                        )}
                                     </td>
                                     <td
                                         style={{
-                                            border: '1px solid #ccc',
                                             padding: '8px',
                                             cursor: 'pointer',
                                             transition: 'color 0.3s', // Add transition for smooth color change
@@ -283,8 +230,8 @@ export const LifeList = (): React.ReactElement => {
                                                         r.commonName ||
                                                         r.scientificName
                                                     }
-                                                    width="50"
-                                                    height="50"
+                                                    width="60"
+                                                    height="60"
                                                     style={{
                                                         borderRadius: '4px',
                                                         marginRight: '1em',
@@ -327,41 +274,51 @@ export const LifeList = (): React.ReactElement => {
                                                 >
                                                     {r.scientificName}
                                                 </div>
-                                            </div>
-                                            {r.iconicName && (
                                                 <div
                                                     style={{
-                                                        backgroundColor:
-                                                            // light orange
-                                                            'rgba(255, 165, 0, 0.2)',
-                                                        color:
-                                                            // dark orange
-                                                            '#FF8C00',
-                                                        padding:
-                                                            '0.2rem 0.5rem',
-                                                        borderRadius: '12px',
-                                                        fontSize: '0.8em',
-                                                        fontWeight: 'bold',
-                                                        textTransform:
-                                                            'uppercase',
-                                                        marginLeft: 'auto',
+                                                        display: 'flex',
+                                                        gap: '0.5rem',
+                                                        marginTop: '0.5rem',
                                                     }}
                                                 >
-                                                    {r.iconicName}
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                'lightgrey',
+                                                            color: 'darkslategrey',
+                                                            padding:
+                                                                '0.2rem 0.5rem',
+                                                            borderRadius: '5px',
+                                                            fontSize: '0.8em',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        📸 {r.observationsCount}
+                                                    </div>
+                                                    {r.iconicName && (
+                                                        <div
+                                                            style={{
+                                                                backgroundColor:
+                                                                    'rgba(255, 165, 0, 0.2)',
+                                                                color: '#FF8C00',
+                                                                padding:
+                                                                    '0.2rem 0.5rem',
+                                                                borderRadius:
+                                                                    '12px',
+                                                                fontSize:
+                                                                    '0.8em',
+                                                                fontWeight:
+                                                                    'bold',
+                                                                textTransform:
+                                                                    'uppercase',
+                                                            }}
+                                                        >
+                                                            {r.iconicName}
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
-                                    </td>
-                                    <td
-                                        style={{
-                                            border: '1px solid #ccc',
-                                            textAlign: 'center',
-                                            width: '7em',
-                                            fontWeight: 'bold',
-                                            color: '#28a745',
-                                        }}
-                                    >
-                                        {r.observationsCount}
                                     </td>
                                 </tr>
                             ))}
