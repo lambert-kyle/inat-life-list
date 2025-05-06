@@ -34,7 +34,7 @@ const AppPage: React.FC = () => {
     }) => (
         <span
             style={{
-                color: 'blue',
+                color: '#5a9bd4', // Muted blue
                 cursor: 'pointer',
                 textDecoration: 'none', // No underline by default
             }}

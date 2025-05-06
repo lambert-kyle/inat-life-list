@@ -33,10 +33,12 @@ export const LifeList = (): React.ReactElement => {
     }, [latitude, limit, longitude, radiusKm, userId]);
 
     // const bgColor = 'rgba(255, 255, 0, 0.2)'; // Slight yellow highlight for seen rows
+    // const bgColor = 'white';
     const bgColor = 'rgba(0, 255, 50, 0.1'; // Slight green highlight for seen rows
     // const bgColor = 'rgba(0, 200, 255, 0.1'; // Slight blue highlight for seen rows
     // const bgColor = 'rgba(152, 251, 152, 0.3)'; // Mint green
     // const bgColor = 'rgba(211, 211, 211, 0.3)'; // Light gray
+    // light cyan
 
     const results = React.useMemo(
         () =>

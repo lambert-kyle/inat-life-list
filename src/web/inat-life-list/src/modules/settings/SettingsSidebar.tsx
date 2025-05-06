@@ -111,7 +111,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
                     alignItems: 'center',
                     display: 'flex',
                     fontSize: 'large',
-                    color: isOpen ? 'black' : 'rgb(1 81 79)',
+                    color: 'rgb(1 81 79)',
                 }}
             >
                 <Hamburger toggled={isOpen} toggle={setIsOpen} />
