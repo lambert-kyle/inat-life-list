@@ -38,7 +38,7 @@ export const UserSelector: React.FC<{
         if (login && login !== userQuery) {
             setUserQuery(user.login);
         }
-    }, [user?.login, userQuery]);
+    }, [user?.login]);
 
     return (
         <div style={{ marginBottom: '1rem' }}>

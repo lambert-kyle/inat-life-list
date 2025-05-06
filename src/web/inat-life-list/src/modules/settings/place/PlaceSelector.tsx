@@ -36,7 +36,7 @@ export const PlaceSelector: React.FC<{
         if (displayName && displayName !== placeQuery) {
             setPlaceQuery(place.display_name);
         }
-    }, [place?.display_name, placeQuery]);
+    }, [place?.display_name]);
 
     return (
         <div style={{ marginBottom: '1rem' }}>
