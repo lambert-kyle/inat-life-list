@@ -11,4 +11,5 @@ export interface TopSpeciesResult {
         small_url: string;
         thumb_url: string;
     };
+    ancestor_ids?: number[];
 }

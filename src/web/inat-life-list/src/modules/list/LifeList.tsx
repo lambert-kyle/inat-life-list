@@ -32,14 +32,6 @@ export const LifeList = (): React.ReactElement => {
         console.log({ latitude, limit, longitude, radiusKm, userId });
     }, [latitude, limit, longitude, radiusKm, userId]);
 
-    // const bgColor = 'rgba(255, 255, 0, 0.2)'; // Slight yellow highlight for seen rows
-    // const bgColor = 'white';
-    const bgColor = 'rgba(0, 255, 50, 0.1'; // Slight green highlight for seen rows
-    // const bgColor = 'rgba(0, 200, 255, 0.1'; // Slight blue highlight for seen rows
-    // const bgColor = 'rgba(152, 251, 152, 0.3)'; // Mint green
-    // const bgColor = 'rgba(211, 211, 211, 0.3)'; // Light gray
-    // light cyan
-
     const results = React.useMemo(
         () =>
             topSpecies?.map((species) => ({
@@ -50,13 +42,15 @@ export const LifeList = (): React.ReactElement => {
                 photoUrl: species.default_photo?.square_url,
                 seen: userTaxa?.has(species.id),
                 iNatLink: `https://www.inaturalist.org/taxa/${species.id}`,
+                iconicName: species.iconic_taxon_name,
+                ancestorIds: species.ancestor_ids,
             })),
         [topSpecies, userTaxa]
     );
 
-    const [sortBy, setSortBy] = React.useState<'observationCount' | 'seen'>(
-        'observationCount'
-    );
+    const [sortBy, setSortBy] = React.useState<
+        'observationCount' | 'seen' | 'taxon'
+    >('observationCount');
 
     const sortedResults = React.useMemo(() => {
         if (!results) return [];
@@ -65,6 +59,22 @@ export const LifeList = (): React.ReactElement => {
                 return b.observationsCount - a.observationsCount;
             } else if (sortBy === 'seen') {
                 return a.seen === b.seen ? 0 : a.seen ? 1 : -1;
+            } else if (sortBy === 'taxon') {
+                const aAncestors = a.ancestorIds || [];
+                const bAncestors = b.ancestorIds || [];
+                // Compare ancestor IDs sequentially
+                for (
+                    let i = 0;
+                    i < Math.min(aAncestors.length, bAncestors.length);
+                    i++
+                ) {
+                    if (aAncestors[i] !== bAncestors[i]) {
+                        return aAncestors[i] - bAncestors[i];
+                    }
+                }
+
+                // If one is a subset of the other, the shorter one comes first
+                return aAncestors.length - bAncestors.length;
             }
             return 0;
         });
@@ -112,7 +122,12 @@ export const LifeList = (): React.ReactElement => {
                     id="sortBy"
                     value={sortBy}
                     onChange={(e) =>
-                        setSortBy(e.target.value as 'observationCount' | 'seen')
+                        setSortBy(
+                            e.target.value as
+                                | 'observationCount'
+                                | 'seen'
+                                | 'taxon'
+                        )
                     }
                     style={{
                         padding: '0.5rem',
@@ -123,6 +138,7 @@ export const LifeList = (): React.ReactElement => {
                 >
                     <option value="observationCount">Observation Count</option>
                     <option value="seen">Seen</option>
+                    <option value="taxon">Taxon</option>
                 </select>
             </div>
             {!isLoading && (
@@ -214,7 +230,7 @@ export const LifeList = (): React.ReactElement => {
                                     key={r.id}
                                     style={{
                                         backgroundColor: r.seen
-                                            ? bgColor
+                                            ? 'rgba(0, 255, 50, 0.1'
                                             : 'transparent',
                                         opacity: r.seen ? 0.85 : 1, // Fade rows with seen == true
                                         transition: 'opacity 0.3s',
@@ -312,6 +328,28 @@ export const LifeList = (): React.ReactElement => {
                                                     {r.scientificName}
                                                 </div>
                                             </div>
+                                            {r.iconicName && (
+                                                <div
+                                                    style={{
+                                                        backgroundColor:
+                                                            // light orange
+                                                            'rgba(255, 165, 0, 0.2)',
+                                                        color:
+                                                            // dark orange
+                                                            '#FF8C00',
+                                                        padding:
+                                                            '0.2rem 0.5rem',
+                                                        borderRadius: '12px',
+                                                        fontSize: '0.8em',
+                                                        fontWeight: 'bold',
+                                                        textTransform:
+                                                            'uppercase',
+                                                        marginLeft: 'auto',
+                                                    }}
+                                                >
+                                                    {r.iconicName}
+                                                </div>
+                                            )}
                                         </div>
                                     </td>
                                     <td
