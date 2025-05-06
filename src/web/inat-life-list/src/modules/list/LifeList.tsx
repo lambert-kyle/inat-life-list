@@ -2,6 +2,7 @@ import React from 'react';
 import { useTopSpecies } from '../observations/useTopSpecies.ts';
 import { useSettings } from '../settings/useSettings.tsx';
 import { useUserObservations } from '../observations/useUserObservations.ts';
+import useUser from '../settings/user/useUser.ts';
 
 export const LifeList = (): React.ReactElement => {
     const { latitude, limit, longitude, radiusKm, userId } = useSettings();
@@ -25,6 +26,8 @@ export const LifeList = (): React.ReactElement => {
 
     const isLoading = topSpeciesLoading || userObservationsLoading;
 
+    const { data: user } = useUser(userId);
+
     React.useEffect(() => {
         console.log({ latitude, limit, longitude, radiusKm, userId });
     }, [latitude, limit, longitude, radiusKm, userId]);
@@ -47,7 +50,7 @@ export const LifeList = (): React.ReactElement => {
         !limit || !radiusKm || !latitude || !longitude || !userId;
 
     return (
-        <>
+        <div>
             <div
                 style={{
                     display: 'flex',
@@ -68,22 +71,184 @@ export const LifeList = (): React.ReactElement => {
                 </p>
             )}
             {!isLoading && (
-                <div>
-                    {results?.map((r) => (
-                        <TaxonCard
-                            key={r.id}
-                            id={r.id}
-                            scientificName={r.scientificName}
-                            commonName={r.commonName}
-                            photoUrl={r.photoUrl}
-                            iNatLink={r.iNatLink}
-                            seen={r.seen}
-                            observationsCount={r.observationsCount}
-                        />
-                    ))}
-                </div>
+                <>
+                    <table
+                        style={{
+                            borderCollapse: 'collapse',
+                            width: '100%',
+                            textAlign: 'left',
+                        }}
+                    >
+                        <thead>
+                            <tr>
+                                <th
+                                    style={{
+                                        border: '1px solid #ccc',
+                                        padding: '8px',
+                                        placeItems: 'center',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            height: '100%',
+                                            width: '100%',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {user?.icon_url ? (
+                                            <img
+                                                src={user.icon_url}
+                                                alt={user.name}
+                                                width="50"
+                                                height="50"
+                                                style={{
+                                                    borderRadius: '50%',
+                                                }}
+                                            />
+                                        ) : (
+                                            <span>{user?.login ?? ''}</span>
+                                        )}
+                                    </div>
+                                </th>
+                                <th
+                                    style={{
+                                        border: '1px solid #ccc',
+                                        padding: '8px',
+                                        placeItems: 'center',
+                                    }}
+                                >
+                                    Taxon
+                                </th>
+                                <th
+                                    style={{
+                                        border: '1px solid #ccc',
+                                        padding: '8px',
+                                        placeItems: 'center',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Community Observations
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {results?.map((r) => (
+                                <tr>
+                                    <td
+                                        style={{
+                                            border: '1px solid #ccc',
+                                            placeItems: 'center',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                fontSize: 'x-large',
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            {r.seen && '✅'}
+                                        </div>
+                                    </td>
+                                    <td
+                                        style={{
+                                            border: '1px solid #ccc',
+                                            placeItems: 'center',
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex' }}>
+                                            <div
+                                                style={{
+                                                    height: '100%',
+                                                    marginRight: '0.5rem',
+                                                }}
+                                            >
+                                                {r.photoUrl ? (
+                                                    <a
+                                                        href={r.iNatLink}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            textDecoration:
+                                                                'none',
+                                                            color: 'inherit',
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={r.photoUrl}
+                                                            alt={
+                                                                r.commonName ||
+                                                                r.scientificName
+                                                            }
+                                                            width="50"
+                                                            height="50"
+                                                        />
+                                                    </a>
+                                                ) : (
+                                                    'N/A'
+                                                )}
+                                            </div>
+                                            <a
+                                                href={r.iNatLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    textDecoration: 'none',
+                                                    color: 'inherit',
+                                                }}
+                                            >
+                                                {r.commonName ? (
+                                                    <>
+                                                        {r.commonName}
+                                                        <br />
+                                                    </>
+                                                ) : (
+                                                    ''
+                                                )}
+                                                <i
+                                                    style={{
+                                                        fontSize: 'small',
+                                                    }}
+                                                >
+                                                    {r.scientificName}
+                                                </i>
+                                            </a>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    placeItems: 'center',
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                <span
+                                                    style={{
+                                                        fontSize: 'larger',
+                                                    }}
+                                                >
+                                                    📸
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td
+                                        style={{
+                                            border: '1px solid #ccc',
+                                            placeItems: 'center',
+                                            textAlign: 'center',
+                                            width: '7em',
+                                        }}
+                                    >
+                                        {r.observationsCount}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </>
             )}
-        </>
+        </div>
     );
 };
 
@@ -107,7 +272,7 @@ const TaxonCard: React.FC<TaxonCardProps> = ({
     return (
         <div
             style={{
-                border: '1px solid #ccc',
+                // border: '1px solid #ccc',
                 borderRadius: '8px',
                 padding: '1rem',
                 marginBottom: '1rem',
@@ -117,27 +282,27 @@ const TaxonCard: React.FC<TaxonCardProps> = ({
                 gap: '2rem',
             }}
         >
-            {/* Badge */}
-            <div
-                style={{
-                    position: 'absolute',
-                    top: '5px',
-                    left: '-20px',
-                    // backgroundColor: seen ? '#4caf50' : '#f44336', // Green for seen, red for not seen
-                    color: 'white',
-                    borderRadius: '50%',
-                    width: '30px',
-                    height: '30px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                }}
-            >
-                {seen ? '✅' : '❌'}
-            </div>
+            {/*/!* Badge *!/*/}
+            {/*<div*/}
+            {/*    style={{*/}
+            {/*        position: 'absolute',*/}
+            {/*        top: '5px',*/}
+            {/*        left: '-20px',*/}
+            {/*        // backgroundColor: seen ? '#4caf50' : '#f44336', // Green for seen, red for not seen*/}
+            {/*        color: 'white',*/}
+            {/*        borderRadius: '50%',*/}
+            {/*        width: '30px',*/}
+            {/*        height: '30px',*/}
+            {/*        display: 'flex',*/}
+            {/*        alignItems: 'center',*/}
+            {/*        justifyContent: 'center',*/}
+            {/*        fontSize: '20px',*/}
+            {/*        fontWeight: 'bold',*/}
+            {/*        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    {seen ? '✅' : '❌'}*/}
+            {/*</div>*/}
             <div
                 style={{
                     height: '100%',
