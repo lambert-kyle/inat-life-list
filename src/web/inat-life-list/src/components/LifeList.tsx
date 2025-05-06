@@ -10,8 +10,8 @@ export const LifeList = (): React.ReactElement => {
 
     const {
         data: topSpecies,
-        error,
-        isLoading,
+        error: topSpeciesError,
+        isLoading: topSpeciesLoading,
     } = useTopSpecies({
         lat: latitude,
         lng: longitude,
@@ -19,7 +19,13 @@ export const LifeList = (): React.ReactElement => {
         limit,
     });
 
-    const { data: userTaxa } = useUserObservations(userId);
+    const {
+        data: userTaxa,
+        error: userObservationsError,
+        isLoading: userObservationsLoading,
+    } = useUserObservations(userId);
+
+    const isLoading = topSpeciesLoading || userObservationsLoading;
 
     React.useEffect(() => {
         console.log({ latitude, limit, longitude, radiusKm, userId });
@@ -69,7 +75,15 @@ export const LifeList = (): React.ReactElement => {
                 </span>
             )}
             {isLoading && <p>Loading...</p>}
-            {error && <p>Error: {error.message}</p>}
+            {topSpeciesError && (
+                <p>Error loading top species: {topSpeciesError.message}</p>
+            )}
+            {userObservationsError && (
+                <p>
+                    Error loading user observations:{' '}
+                    {userObservationsError.message}
+                </p>
+            )}
             {topSpecies && (
                 <table>
                     <thead>
