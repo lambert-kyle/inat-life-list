@@ -32,6 +32,12 @@ export const LifeList = (): React.ReactElement => {
         console.log({ latitude, limit, longitude, radiusKm, userId });
     }, [latitude, limit, longitude, radiusKm, userId]);
 
+    // const bgColor = 'rgba(255, 255, 0, 0.2)'; // Slight yellow highlight for seen rows
+    const bgColor = 'rgba(0, 255, 50, 0.1'; // Slight green highlight for seen rows
+    // const bgColor = 'rgba(0, 200, 255, 0.1'; // Slight blue highlight for seen rows
+    // const bgColor = 'rgba(152, 251, 152, 0.3)'; // Mint green
+    // const bgColor = 'rgba(211, 211, 211, 0.3)'; // Light gray
+
     const results = React.useMemo(
         () =>
             topSpecies?.map((species) => ({
@@ -79,7 +85,13 @@ export const LifeList = (): React.ReactElement => {
                             textAlign: 'left',
                         }}
                     >
-                        <thead style={{ color: 'rgb(1 81 79)' }}>
+                        <thead
+                            style={
+                                {
+                                    // color: 'rgb(1 81 79)'
+                                }
+                            }
+                        >
                             <tr>
                                 <th
                                     style={{
@@ -137,9 +149,9 @@ export const LifeList = (): React.ReactElement => {
                                     key={r.id}
                                     style={{
                                         backgroundColor: r.seen
-                                            ? 'rgba(255, 255, 0, 0.2)' // Slight yellow highlight for seen rows
+                                            ? bgColor
                                             : 'transparent',
-                                        opacity: r.seen ? 0.6 : 1, // Fade rows with seen == true
+                                        opacity: r.seen ? 0.85 : 1, // Fade rows with seen == true
                                         transition: 'opacity 0.3s',
                                     }}
                                 >
@@ -163,10 +175,19 @@ export const LifeList = (): React.ReactElement => {
                                             border: '1px solid #ccc',
                                             padding: '8px',
                                             cursor: 'pointer',
+                                            transition: 'color 0.3s', // Add transition for smooth color change
                                         }}
+                                        onMouseEnter={(e) =>
+                                            (e.currentTarget.style.color =
+                                                '#007bff')
+                                        } // Change text color on hover
+                                        onMouseLeave={(e) =>
+                                            (e.currentTarget.style.color =
+                                                'inherit')
+                                        } // Reset text color on hover out
                                         onClick={() =>
                                             window.open(r.iNatLink, '_blank')
-                                        }
+                                        } // Make the cell clickable
                                     >
                                         <div
                                             style={{
@@ -206,22 +227,7 @@ export const LifeList = (): React.ReactElement => {
                                                     N/A
                                                 </div>
                                             )}
-                                            <div
-                                                style={{
-                                                    marginLeft: '1em',
-                                                    color: 'inherit',
-                                                    textDecoration: 'none',
-                                                    transition: 'color 0.3s',
-                                                }}
-                                                onMouseEnter={(e) =>
-                                                    (e.currentTarget.style.color =
-                                                        '#007bff')
-                                                }
-                                                onMouseLeave={(e) =>
-                                                    (e.currentTarget.style.color =
-                                                        'inherit')
-                                                }
-                                            >
+                                            <div>
                                                 {r.commonName && (
                                                     <div
                                                         style={{
@@ -233,6 +239,7 @@ export const LifeList = (): React.ReactElement => {
                                                 )}
                                                 <div
                                                     style={{
+                                                        fontFamily: 'system-ui',
                                                         fontStyle: 'italic',
                                                         fontSize: '0.9em',
                                                     }}
@@ -248,7 +255,7 @@ export const LifeList = (): React.ReactElement => {
                                             textAlign: 'center',
                                             width: '7em',
                                             fontWeight: 'bold',
-                                            color: '#28a745', // Prettier color for observations
+                                            color: '#28a745',
                                         }}
                                     >
                                         {r.observationsCount}
