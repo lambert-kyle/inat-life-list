@@ -6,16 +6,16 @@ interface TaxonTagProps {
 }
 
 const colorMap: Record<string, string> = {
-    Plantae: 'rgba(0, 128, 0, 0.2)', // Green
-    Aves: 'rgba(0, 0, 255, 0.2)', // Blue
-    Insecta: 'rgba(128, 0, 128, 0.2)', // Purple
-    Mammalia: 'rgba(255, 165, 0, 0.2)', // Orange
-    Fungi: 'rgba(139, 69, 19, 0.2)', // Brown
-    Reptilia: 'rgba(0, 128, 128, 0.2)', // Teal
-    Amphibia: 'rgba(75, 0, 130, 0.2)', // Indigo
-    Fish: 'rgba(0, 191, 255, 0.2)', // Light Blue
-    Arachnida: 'rgba(255, 20, 147, 0.2)', // Deep Pink
-    Unknown: 'rgba(128, 128, 128, 0.2)', // Gray
+    Plantae: 'rgba(0, 100, 0, 0.8)', // Dark Green
+    Aves: 'rgba(0, 0, 139, 0.8)', // Dark Blue
+    Insecta: 'rgba(75, 0, 130, 0.8)', // Dark Purple
+    Mammalia: 'rgba(255, 140, 0, 0.8)', // Dark Orange
+    Fungi: 'rgba(101, 67, 33, 0.8)', // Dark Brown
+    Reptilia: 'rgba(0, 100, 100, 0.8)', // Dark Teal
+    Amphibia: 'rgba(49, 0, 98, 0.8)', // Dark Indigo
+    Fish: 'rgba(0, 104, 139, 0.8)', // Dark Light Blue
+    Arachnida: 'rgba(139, 0, 69, 0.8)', // Dark Deep Pink
+    Unknown: 'rgba(64, 64, 64, 0.8)', // Dark Gray
 };
 
 const fetchTaxonById = async (taxonId: number) => {
@@ -45,13 +45,12 @@ const TaxonTag: React.FC<TaxonTagProps> = ({ iconicTaxonId }) => {
     if (error || !taxon) return <div>Error loading taxon</div>;
 
     const backgroundColor = colorMap[taxon.name] || colorMap['Unknown'];
-    // console.log('taxon.name ', taxon.name);
 
     return (
         <div
             style={{
                 backgroundColor,
-                color: backgroundColor.replace('0.2', '1'),
+                color: 'white', // White text
                 padding: '0.2rem 0.5rem',
                 borderRadius: '12px',
                 fontSize: '0.8em',
