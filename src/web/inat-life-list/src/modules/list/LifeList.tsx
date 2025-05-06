@@ -213,15 +213,6 @@ export const LifeList = (): React.ReactElement => {
                                 >
                                     Taxon
                                 </th>
-                                <th
-                                    style={{
-                                        border: '1px solid #ccc',
-                                        padding: '8px',
-                                        textAlign: 'center',
-                                    }}
-                                >
-                                    Community Observations
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -328,40 +319,50 @@ export const LifeList = (): React.ReactElement => {
                                                     {r.scientificName}
                                                 </div>
                                             </div>
-                                            {r.iconicName && (
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    gap: '0.5rem',
+                                                    marginTop: '0.5rem',
+                                                    marginLeft: 'auto',
+                                                    flexWrap: 'wrap',
+                                                }}
+                                            >
+                                                {r.iconicName && (
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                'rgba(255, 165, 0, 0.2)',
+                                                            color: '#FF8C00',
+                                                            padding:
+                                                                '0.2rem 0.5rem',
+                                                            borderRadius:
+                                                                '12px',
+                                                            fontSize: '0.8em',
+                                                            fontWeight: 'bold',
+                                                            textTransform:
+                                                                'uppercase',
+                                                        }}
+                                                    >
+                                                        {r.iconicName}
+                                                    </div>
+                                                )}
                                                 <div
                                                     style={{
                                                         backgroundColor:
-                                                            // light orange
-                                                            'rgba(255, 165, 0, 0.2)',
-                                                        color:
-                                                            // dark orange
-                                                            '#FF8C00',
+                                                            '#e7e7e7',
+                                                        color: 'darkslategrey',
                                                         padding:
                                                             '0.2rem 0.5rem',
-                                                        borderRadius: '12px',
+                                                        borderRadius: '5px',
                                                         fontSize: '0.8em',
                                                         fontWeight: 'bold',
-                                                        textTransform:
-                                                            'uppercase',
-                                                        marginLeft: 'auto',
                                                     }}
                                                 >
-                                                    {r.iconicName}
+                                                    📸 {r.observationsCount}
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
-                                    </td>
-                                    <td
-                                        style={{
-                                            border: '1px solid #ccc',
-                                            textAlign: 'center',
-                                            width: '7em',
-                                            fontWeight: 'bold',
-                                            color: '#28a745',
-                                        }}
-                                    >
-                                        {r.observationsCount}
                                     </td>
                                 </tr>
                             ))}
