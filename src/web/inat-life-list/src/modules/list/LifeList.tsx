@@ -154,6 +154,7 @@ export const LifeList = (): React.ReactElement => {
                             style={
                                 {
                                     // color: 'rgb(1 81 79)'
+                                    // backgroundColor: '#f0f0f0',
                                 }
                             }
                         >
@@ -174,41 +175,14 @@ export const LifeList = (): React.ReactElement => {
                                             justifyContent: 'center',
                                         }}
                                     >
-                                        {user?.icon_url ? (
-                                            <a
-                                                href={`https://www.inaturalist.org/users/${user.id}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                style={{
-                                                    textDecoration: 'none',
-                                                }}
-                                            >
-                                                <img
-                                                    src={user.icon_url}
-                                                    alt={user.name}
-                                                    width="50"
-                                                    height="50"
-                                                    style={{
-                                                        borderRadius: '50%',
-                                                        cursor: 'pointer',
-                                                    }}
-                                                />
-                                            </a>
-                                        ) : (
-                                            <a
-                                                href={`https://www.inaturalist.org/users/${userId}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                <span>{user?.login ?? ''}</span>
-                                            </a>
-                                        )}
+                                        Seen
                                     </div>
                                 </th>
                                 <th
                                     style={{
                                         border: '1px solid #ccc',
                                         padding: '8px',
+                                        textAlign: 'center',
                                     }}
                                 >
                                     Taxon
@@ -219,18 +193,23 @@ export const LifeList = (): React.ReactElement => {
                             {sortedResults?.map((r) => (
                                 <tr
                                     key={r.id}
-                                    style={{
-                                        backgroundColor: r.seen
-                                            ? 'rgba(0, 255, 50, 0.1'
-                                            : 'transparent',
-                                        opacity: r.seen ? 0.85 : 1, // Fade rows with seen == true
-                                        transition: 'opacity 0.3s',
-                                    }}
+                                    style={
+                                        {
+                                            // backgroundColor: r.seen
+                                            //     ? 'rgba(0, 255, 50, 0.1'
+                                            //     : 'transparent',
+                                            // opacity: r.seen ? 0.7 : 1, // Fade rows with seen == true
+                                            // transition: 'opacity 0.3s',
+                                        }
+                                    }
                                 >
                                     <td
                                         style={{
                                             border: '1px solid #ccc',
                                             textAlign: 'center',
+                                            backgroundColor: r.seen
+                                                ? 'rgba(0, 255, 50, 0.1'
+                                                : 'transparent',
                                         }}
                                     >
                                         <div
@@ -239,7 +218,46 @@ export const LifeList = (): React.ReactElement => {
                                                 textAlign: 'center',
                                             }}
                                         >
-                                            {r.seen && '✅'}
+                                            {r.seen && (
+                                                <div
+                                                    style={{
+                                                        placeItems: 'center',
+                                                    }}
+                                                >
+                                                    {/*{*/}
+                                                    {/*    user?.icon_url ? (*/}
+                                                    {/*    <a*/}
+                                                    {/*        href={`https://www.inaturalist.org/users/${user.id}`}*/}
+                                                    {/*        target="_blank"*/}
+                                                    {/*        rel="noopener noreferrer"*/}
+                                                    {/*        style={{*/}
+                                                    {/*            textDecoration:*/}
+                                                    {/*                'none',*/}
+                                                    {/*        }}*/}
+                                                    {/*    >*/}
+                                                    {/*        <img*/}
+                                                    {/*            src={*/}
+                                                    {/*                user.icon_url*/}
+                                                    {/*            }*/}
+                                                    {/*            alt={user.name}*/}
+                                                    {/*            width="40"*/}
+                                                    {/*            height="40"*/}
+                                                    {/*            style={{*/}
+                                                    {/*                borderRadius:*/}
+                                                    {/*                    '50%',*/}
+                                                    {/*                cursor: 'pointer',*/}
+                                                    {/*                position:*/}
+                                                    {/*                    'relative',*/}
+                                                    {/*                top: '.2em',*/}
+                                                    {/*            }}*/}
+                                                    {/*        />*/}
+                                                    {/*    </a>*/}
+                                                    {/*) : (*/}
+                                                    {/*    <span>✅</span>*/}
+                                                    {/*)}*/}
+                                                    <span>✅</span>
+                                                </div>
+                                            )}
                                         </div>
                                     </td>
                                     <td
