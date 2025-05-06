@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Hamburger from 'hamburger-react';
 import { useSettings } from './useSettings.tsx';
 import PlaceSelector from './place/PlaceSelector.tsx';
 import Place from './place/Place.ts';
@@ -61,16 +62,12 @@ const SettingsSidebar: React.FC = () => {
 
     return (
         <>
-            <button
-                onClick={() => setIsOpen((open) => !open)}
+            <div
                 style={{
                     position: 'fixed',
-                    top: 10,
-                    left: isOpen ? 290 : 10, // Adjust position based on sidebar state
+                    top: 5,
+                    left: isOpen ? 280 : 10, // Adjust position based on sidebar state
                     zIndex: 1001,
-                    background: '#f0f0f0',
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
                     padding: '0.5rem',
                     transition: 'left 0.3s ease', // Smooth transition
                     height: '2em',
@@ -79,11 +76,9 @@ const SettingsSidebar: React.FC = () => {
                     display: 'flex',
                     fontSize: 'large',
                 }}
-                title={isOpen ? 'Hide Settings' : 'Show Settings'}
             >
-                {/*{isOpen ? '🙈' : '🙉'}*/}
-                {isOpen ? '⬅️' : '➡️'}
-            </button>
+                <Hamburger toggled={isOpen} toggle={setIsOpen} />
+            </div>
 
             <div
                 style={{
@@ -92,7 +87,7 @@ const SettingsSidebar: React.FC = () => {
                     left: isOpen ? 0 : '-320px',
                     width: '300px',
                     height: '100%',
-                    background: '#f0f0f0',
+                    background: 'rgb(248 248 248)',
                     borderRight: '1px solid #ccc',
                     padding: '1rem',
                     overflowY: 'auto',
@@ -104,6 +99,7 @@ const SettingsSidebar: React.FC = () => {
 
                 <div style={{ marginBottom: '1rem' }}>
                     <label htmlFor="limit">Limit (number of species):</label>
+                    <br />
                     <input
                         name="limit"
                         type="number"
@@ -111,12 +107,18 @@ const SettingsSidebar: React.FC = () => {
                         onChange={(e) =>
                             setSelectedLimit(parseInt(e.target.value))
                         }
-                        style={{ width: '15em', padding: '0.5rem' }}
+                        style={{
+                            width: '7em',
+                            padding: '0.5rem',
+                            borderRadius: '4px',
+                            border: '1px solid #ccc',
+                        }}
                     />
                 </div>
 
                 <div style={{ marginBottom: '1rem' }}>
                     <label htmlFor="radius">Radius (km):</label>
+                    <br />
                     <input
                         name="radius"
                         type="number"
@@ -124,15 +126,31 @@ const SettingsSidebar: React.FC = () => {
                         onChange={(e) =>
                             setSelectedRadius(parseInt(e.target.value))
                         }
-                        style={{ width: '15em', padding: '0.5rem' }}
+                        style={{
+                            width: '7em',
+                            padding: '0.5rem',
+                            borderRadius: '4px',
+                            border: '1px solid #ccc',
+                        }}
                     />
                 </div>
 
                 <PlaceSelector
                     place={selectedPlace}
                     setPlace={setSelectedPlace}
+                    inputStyle={{
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                    }}
                 />
-                <UserSelector user={selectedUser} setUser={setSelectedUser} />
+                <UserSelector
+                    user={selectedUser}
+                    setUser={setSelectedUser}
+                    inputStyle={{
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                    }}
+                />
 
                 <button
                     onClick={handleSave}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import Place from './Place.ts';
 
 const fetchPlaces = async (query: string): Promise<Place[]> => {
@@ -17,7 +17,8 @@ const fetchPlaces = async (query: string): Promise<Place[]> => {
 export const PlaceSelector: React.FC<{
     place: Place | undefined;
     setPlace: (place: Place) => void;
-}> = ({ place, setPlace }) => {
+    inputStyle?: CSSProperties;
+}> = ({ place, setPlace, inputStyle }) => {
     const [placeQuery, setPlaceQuery] = useState(place?.display_name ?? '');
     const [placeResults, setPlaceResults] = useState<Place[]>([]);
     const [showResults, setShowResults] = useState(false);
@@ -52,11 +53,9 @@ export const PlaceSelector: React.FC<{
                     setTimeout(() => setShowResults(false), 200);
                 }}
                 style={{
+                    ...inputStyle,
                     width: '90%',
                     padding: '0.5rem ',
-                    background: '#f5f5f5',
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
                 }}
             />
             {showResults && (

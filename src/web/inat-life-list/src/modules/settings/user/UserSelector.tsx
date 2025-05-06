@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import User from './User.ts';
 
 const fetchUsers = async (query: string): Promise<User[]> => {
@@ -19,7 +19,8 @@ const fetchUsers = async (query: string): Promise<User[]> => {
 export const UserSelector: React.FC<{
     user: User | undefined;
     setUser: (User: User) => void;
-}> = ({ user, setUser }) => {
+    inputStyle?: CSSProperties;
+}> = ({ user, setUser, inputStyle }) => {
     const [userQuery, setUserQuery] = useState(user?.login ?? '');
     const [UserResults, setUserResults] = useState<User[]>([]);
     const [showResults, setShowResults] = useState(false);
@@ -54,11 +55,9 @@ export const UserSelector: React.FC<{
                     setTimeout(() => setShowResults(false), 200);
                 }}
                 style={{
+                    ...inputStyle,
                     width: '90%',
                     padding: '0.5rem ',
-                    background: '#f5f5f5',
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
                 }}
             />
             {showResults && (
