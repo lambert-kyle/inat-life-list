@@ -112,17 +112,33 @@ export const LifeList = (): React.ReactElement => {
                                         }}
                                     >
                                         {user?.icon_url ? (
-                                            <img
-                                                src={user.icon_url}
-                                                alt={user.name}
-                                                width="50"
-                                                height="50"
+                                            <a
+                                                href={`https://www.inaturalist.org/users/${user.id}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                                 style={{
-                                                    borderRadius: '50%',
+                                                    textDecoration: 'none',
                                                 }}
-                                            />
+                                            >
+                                                <img
+                                                    src={user.icon_url}
+                                                    alt={user.name}
+                                                    width="50"
+                                                    height="50"
+                                                    style={{
+                                                        borderRadius: '50%',
+                                                        cursor: 'pointer',
+                                                    }}
+                                                />
+                                            </a>
                                         ) : (
-                                            <span>{user?.login ?? ''}</span>
+                                            <a
+                                                href={`https://www.inaturalist.org/users/${userId}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <span>{user?.login ?? ''}</span>
+                                            </a>
                                         )}
                                     </div>
                                 </th>
