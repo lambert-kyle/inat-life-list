@@ -135,205 +135,208 @@ export const LifeList = (): React.ReactElement => {
                 </select>
             </div>
             {!isLoading && (
-                <>
-                    <table
-                        style={{
-                            borderCollapse: 'collapse',
-                            width: '100%',
-                            textAlign: 'left',
-                        }}
-                    >
-                        <tbody>
-                            {sortedResults?.map((r) => (
-                                <tr
-                                    key={r.id}
+                <ul
+                    style={{
+                        listStyle: 'none',
+                        padding: 0,
+                        margin: 0,
+                    }}
+                >
+                    {sortedResults?.map((r) => (
+                        <li
+                            key={r.id}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                // marginBottom: '1rem',
+                                padding: '0.25rem',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    marginRight: '1rem',
+                                    textAlign: 'center',
+                                    width: '3em',
+                                }}
+                            >
+                                {r.seen && (
+                                    <>
+                                        {user?.icon_url ? (
+                                            <a
+                                                href={`https://www.inaturalist.org/users/${user.id}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    textDecoration: 'none',
+                                                }}
+                                            >
+                                                <img
+                                                    src={user.icon_url}
+                                                    alt={user.name}
+                                                    width="40"
+                                                    height="40"
+                                                    style={{
+                                                        borderRadius: '50%',
+                                                        cursor: 'pointer',
+                                                    }}
+                                                />
+                                            </a>
+                                        ) : (
+                                            <div
+                                                style={{
+                                                    fontSize: 'x-large',
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                ✅
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                                {!r.seen && (
+                                    <div
+                                        style={{
+                                            fontSize: 'x-large',
+                                            textAlign: 'center',
+                                        }}
+                                    ></div>
+                                )}
+                            </div>
+                            <div
+                                style={{
+                                    flex: 1,
+                                    cursor: 'pointer',
+                                    border: r.seen
+                                        ? '2px solid rgb(76 162 0)'
+                                        : '1px solid #e0e0e0',
+                                    backgroundColor: r.seen
+                                        ? 'rgba(0, 255, 50, 0.1)'
+                                        : 'transparent',
+                                    transition:
+                                        'background-color 0.3s, border 0.3s',
+                                    padding: '0.5rem',
+                                    borderRadius: '15px',
+                                    paddingLeft: '1rem',
+                                }}
+                                onMouseEnter={(e) =>
+                                    (e.currentTarget.style.color = '#007bff')
+                                }
+                                onMouseLeave={(e) =>
+                                    (e.currentTarget.style.color = 'inherit')
+                                }
+                                onClick={() =>
+                                    window.open(r.iNatLink, '_blank')
+                                }
+                            >
+                                <div
                                     style={{
-                                        transition: 'opacity 0.3s',
-                                        ...(r.seen
-                                            ? {
-                                                  backgroundColor:
-                                                      'rgba(0, 255, 50, 0.1)',
-                                                  opacity: 0.85,
-                                                  border: '2px solid #529715',
-                                              }
-                                            : {
-                                                  backgroundColor:
-                                                      'transparent',
-                                                  opacity: 1,
-                                                  borderBottom:
-                                                      '1px solid #e0e0e0',
-                                              }),
+                                        display: 'flex',
+                                        alignItems: 'center',
                                     }}
                                 >
-                                    <td
+                                    {r.photoUrl ? (
+                                        <img
+                                            src={r.photoUrl}
+                                            alt={
+                                                r.commonName || r.scientificName
+                                            }
+                                            width="60"
+                                            height="60"
+                                            style={{
+                                                borderRadius: '5px',
+                                                marginRight: '1em',
+                                            }}
+                                        />
+                                    ) : (
+                                        <div
+                                            style={{
+                                                width: '50px',
+                                                height: '50px',
+                                                marginRight: '1em',
+                                                backgroundColor: '#f0f0f0',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                borderRadius: '4px',
+                                            }}
+                                        >
+                                            N/A
+                                        </div>
+                                    )}
+                                    <div
                                         style={{
-                                            textAlign: 'center',
-                                            padding: '1rem 0',
+                                            display: 'flex',
+                                            flexWrap: 'wrap',
+                                            justifyContent: 'space-between',
+                                            width: '100%',
                                         }}
                                     >
-                                        {r.seen && (
-                                            <>
-                                                {user?.icon_url ? (
-                                                    <a
-                                                        href={`https://www.inaturalist.org/users/${user.id}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{
-                                                            textDecoration:
-                                                                'none',
-                                                        }}
-                                                    >
-                                                        <img
-                                                            src={user.icon_url}
-                                                            alt={user.name}
-                                                            width="40"
-                                                            height="40"
-                                                            style={{
-                                                                borderRadius:
-                                                                    '50%',
-                                                                cursor: 'pointer',
-                                                            }}
-                                                        />
-                                                    </a>
-                                                ) : (
-                                                    <div
-                                                        style={{
-                                                            fontSize: 'x-large',
-                                                            textAlign: 'center',
-                                                        }}
-                                                    >
-                                                        ✅
-                                                    </div>
-                                                )}
-                                            </>
-                                        )}
-                                    </td>
-                                    <td
-                                        style={{
-                                            padding: '8px',
-                                            cursor: 'pointer',
-                                            transition: 'color 0.3s', // Add transition for smooth color change
-                                        }}
-                                        onMouseEnter={(e) =>
-                                            (e.currentTarget.style.color =
-                                                '#007bff')
-                                        } // Change text color on hover
-                                        onMouseLeave={(e) =>
-                                            (e.currentTarget.style.color =
-                                                'inherit')
-                                        } // Reset text color on hover out
-                                        onClick={() =>
-                                            window.open(r.iNatLink, '_blank')
-                                        } // Make the cell clickable
-                                    >
+                                        <div>
+                                            {r.commonName && (
+                                                <div
+                                                    style={{
+                                                        fontWeight: 'bold',
+                                                    }}
+                                                >
+                                                    {r.commonName}
+                                                </div>
+                                            )}
+                                            <div
+                                                style={{
+                                                    fontFamily: 'system-ui',
+                                                    fontStyle: 'italic',
+                                                    fontSize: '0.9em',
+                                                }}
+                                            >
+                                                {r.scientificName}
+                                            </div>
+                                        </div>
                                         <div
                                             style={{
                                                 display: 'flex',
-                                                alignItems: 'center',
+                                                gap: '0.5rem',
+                                                marginTop: '0.5rem',
                                             }}
                                         >
-                                            {r.photoUrl ? (
-                                                <img
-                                                    src={r.photoUrl}
-                                                    alt={
-                                                        r.commonName ||
-                                                        r.scientificName
-                                                    }
-                                                    width="60"
-                                                    height="60"
-                                                    style={{
-                                                        borderRadius: '4px',
-                                                        marginRight: '1em',
-                                                    }}
-                                                />
-                                            ) : (
+                                            {r.iconicName && (
                                                 <div
                                                     style={{
-                                                        width: '50px',
-                                                        height: '50px',
-                                                        marginRight: '1em',
                                                         backgroundColor:
-                                                            '#f0f0f0',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent:
-                                                            'center',
-                                                        borderRadius: '4px',
+                                                            'rgba(255, 165, 0, 0.2)',
+                                                        color: '#FF8C00',
+                                                        padding:
+                                                            '0.2rem 0.5rem',
+                                                        borderRadius: '12px',
+                                                        fontSize: '0.8em',
+                                                        fontWeight: 'bold',
+                                                        textTransform:
+                                                            'uppercase',
+                                                        height: '20px',
                                                     }}
                                                 >
-                                                    N/A
+                                                    {r.iconicName}
                                                 </div>
                                             )}
-                                            <div>
-                                                {r.commonName && (
-                                                    <div
-                                                        style={{
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        {r.commonName}
-                                                    </div>
-                                                )}
-                                                <div
-                                                    style={{
-                                                        fontFamily: 'system-ui',
-                                                        fontStyle: 'italic',
-                                                        fontSize: '0.9em',
-                                                    }}
-                                                >
-                                                    {r.scientificName}
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        gap: '0.5rem',
-                                                        marginTop: '0.5rem',
-                                                    }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            backgroundColor:
-                                                                'lightgrey',
-                                                            color: 'darkslategrey',
-                                                            padding:
-                                                                '0.2rem 0.5rem',
-                                                            borderRadius: '5px',
-                                                            fontSize: '0.8em',
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        📸 {r.observationsCount}
-                                                    </div>
-                                                    {r.iconicName && (
-                                                        <div
-                                                            style={{
-                                                                backgroundColor:
-                                                                    'rgba(255, 165, 0, 0.2)',
-                                                                color: '#FF8C00',
-                                                                padding:
-                                                                    '0.2rem 0.5rem',
-                                                                borderRadius:
-                                                                    '12px',
-                                                                fontSize:
-                                                                    '0.8em',
-                                                                fontWeight:
-                                                                    'bold',
-                                                                textTransform:
-                                                                    'uppercase',
-                                                            }}
-                                                        >
-                                                            {r.iconicName}
-                                                        </div>
-                                                    )}
-                                                </div>
+                                            <div
+                                                style={{
+                                                    backgroundColor: '#e7ebed',
+                                                    color: 'darkslategrey',
+                                                    padding: '0.2rem 0.5rem',
+                                                    borderRadius: '5px',
+                                                    fontSize: '0.8em',
+                                                    fontWeight: 'bold',
+                                                    height: '20px',
+                                                }}
+                                            >
+                                                📸 {r.observationsCount}
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             )}
         </div>
     );
