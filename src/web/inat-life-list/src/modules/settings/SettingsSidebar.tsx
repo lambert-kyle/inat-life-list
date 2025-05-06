@@ -61,6 +61,16 @@ const SettingsSidebar: React.FC = () => {
         setIsOpen(false);
     };
 
+    // reset sidebar state when closing
+    React.useEffect(() => {
+        if (!isOpen) {
+            setSelectedLimit(limit);
+            setSelectedRadius(radiusKm);
+            setSelectedPlace(place);
+            setSelectedUser(user);
+        }
+    }, [isOpen, limit, radiusKm, place, user]);
+
     return (
         <>
             {/* Overlay for blur effect */}
@@ -76,7 +86,9 @@ const SettingsSidebar: React.FC = () => {
                         backdropFilter: 'blur(5px)', // Blur effect
                         zIndex: 999, // Below the sidebar but above the rest of the page
                     }}
-                    onClick={() => setIsOpen(false)} // Close sidebar when clicking outside
+                    onClick={() => {
+                        setIsOpen(false);
+                    }} // Close sidebar when clicking outside
                 ></div>
             )}
             <div
@@ -112,7 +124,7 @@ const SettingsSidebar: React.FC = () => {
                     padding: isOpen ? '1rem' : '0rem',
                 }}
             >
-                <h2 style={{color: 'rgb(1 81 79)'}}>Settings</h2>
+                <h2 style={{ color: 'rgb(1 81 79)' }}>Settings</h2>
 
                 <div style={{ marginBottom: '1rem' }}>
                     <label htmlFor="limit">Limit (number of species):</label>

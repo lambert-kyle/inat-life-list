@@ -79,13 +79,13 @@ export const LifeList = (): React.ReactElement => {
                             textAlign: 'left',
                         }}
                     >
-                        <thead>
+                        <thead style={{ color: 'rgb(1 81 79)' }}>
                             <tr>
                                 <th
                                     style={{
                                         border: '1px solid #ccc',
                                         padding: '8px',
-                                        placeItems: 'center',
+                                        textAlign: 'center',
                                     }}
                                 >
                                     <div
@@ -116,7 +116,6 @@ export const LifeList = (): React.ReactElement => {
                                     style={{
                                         border: '1px solid #ccc',
                                         padding: '8px',
-                                        placeItems: 'center',
                                     }}
                                 >
                                     Taxon
@@ -125,7 +124,6 @@ export const LifeList = (): React.ReactElement => {
                                     style={{
                                         border: '1px solid #ccc',
                                         padding: '8px',
-                                        placeItems: 'center',
                                         textAlign: 'center',
                                     }}
                                 >
@@ -135,11 +133,20 @@ export const LifeList = (): React.ReactElement => {
                         </thead>
                         <tbody>
                             {results?.map((r) => (
-                                <tr>
+                                <tr
+                                    key={r.id}
+                                    style={{
+                                        backgroundColor: r.seen
+                                            ? 'rgba(255, 255, 0, 0.2)' // Slight yellow highlight for seen rows
+                                            : 'transparent',
+                                        opacity: r.seen ? 0.6 : 1, // Fade rows with seen == true
+                                        transition: 'opacity 0.3s',
+                                    }}
+                                >
                                     <td
                                         style={{
                                             border: '1px solid #ccc',
-                                            placeItems: 'center',
+                                            textAlign: 'center',
                                         }}
                                     >
                                         <div
@@ -155,7 +162,11 @@ export const LifeList = (): React.ReactElement => {
                                         style={{
                                             border: '1px solid #ccc',
                                             padding: '8px',
+                                            cursor: 'pointer',
                                         }}
+                                        onClick={() =>
+                                            window.open(r.iNatLink, '_blank')
+                                        }
                                     >
                                         <div
                                             style={{
@@ -164,29 +175,19 @@ export const LifeList = (): React.ReactElement => {
                                             }}
                                         >
                                             {r.photoUrl ? (
-                                                <a
-                                                    href={r.iNatLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
+                                                <img
+                                                    src={r.photoUrl}
+                                                    alt={
+                                                        r.commonName ||
+                                                        r.scientificName
+                                                    }
+                                                    width="50"
+                                                    height="50"
                                                     style={{
-                                                        textDecoration: 'none',
-                                                        color: 'inherit',
+                                                        borderRadius: '4px',
                                                         marginRight: '1em',
                                                     }}
-                                                >
-                                                    <img
-                                                        src={r.photoUrl}
-                                                        alt={
-                                                            r.commonName ||
-                                                            r.scientificName
-                                                        }
-                                                        width="50"
-                                                        height="50"
-                                                        style={{
-                                                            borderRadius: '4px',
-                                                        }}
-                                                    />
-                                                </a>
+                                                />
                                             ) : (
                                                 <div
                                                     style={{
@@ -205,7 +206,22 @@ export const LifeList = (): React.ReactElement => {
                                                     N/A
                                                 </div>
                                             )}
-                                            <div style={{ marginLeft: '1em' }}>
+                                            <div
+                                                style={{
+                                                    marginLeft: '1em',
+                                                    color: 'inherit',
+                                                    textDecoration: 'none',
+                                                    transition: 'color 0.3s',
+                                                }}
+                                                onMouseEnter={(e) =>
+                                                    (e.currentTarget.style.color =
+                                                        '#007bff')
+                                                }
+                                                onMouseLeave={(e) =>
+                                                    (e.currentTarget.style.color =
+                                                        'inherit')
+                                                }
+                                            >
                                                 {r.commonName && (
                                                     <div
                                                         style={{
@@ -229,9 +245,10 @@ export const LifeList = (): React.ReactElement => {
                                     <td
                                         style={{
                                             border: '1px solid #ccc',
-                                            placeItems: 'center',
                                             textAlign: 'center',
                                             width: '7em',
+                                            fontWeight: 'bold',
+                                            color: '#28a745', // Prettier color for observations
                                         }}
                                     >
                                         {r.observationsCount}
@@ -242,127 +259,6 @@ export const LifeList = (): React.ReactElement => {
                     </table>
                 </>
             )}
-        </div>
-    );
-};
-
-interface TaxonCardProps {
-    id: number;
-    scientificName: string;
-    commonName: string;
-    photoUrl: string | undefined;
-    iNatLink: string;
-    seen: boolean | undefined;
-    observationsCount: number;
-}
-const TaxonCard: React.FC<TaxonCardProps> = ({
-    scientificName,
-    commonName,
-    photoUrl,
-    iNatLink,
-    seen,
-    observationsCount,
-}) => {
-    return (
-        <div
-            style={{
-                // border: '1px solid #ccc',
-                borderRadius: '8px',
-                padding: '1rem',
-                marginBottom: '1rem',
-                display: 'flex',
-                flexDirection: 'row',
-                position: 'relative', // Enable positioning for the badge
-                gap: '2rem',
-            }}
-        >
-            {/*/!* Badge *!/*/}
-            {/*<div*/}
-            {/*    style={{*/}
-            {/*        position: 'absolute',*/}
-            {/*        top: '5px',*/}
-            {/*        left: '-20px',*/}
-            {/*        // backgroundColor: seen ? '#4caf50' : '#f44336', // Green for seen, red for not seen*/}
-            {/*        color: 'white',*/}
-            {/*        borderRadius: '50%',*/}
-            {/*        width: '30px',*/}
-            {/*        height: '30px',*/}
-            {/*        display: 'flex',*/}
-            {/*        alignItems: 'center',*/}
-            {/*        justifyContent: 'center',*/}
-            {/*        fontSize: '20px',*/}
-            {/*        fontWeight: 'bold',*/}
-            {/*        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',*/}
-            {/*    }}*/}
-            {/*>*/}
-            {/*    {seen ? '✅' : '❌'}*/}
-            {/*</div>*/}
-            <div
-                style={{
-                    height: '100%',
-                    marginRight: '0.5rem',
-                }}
-            >
-                {photoUrl ? (
-                    <a
-                        href={iNatLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                            textDecoration: 'none',
-                            color: 'inherit',
-                        }}
-                    >
-                        <img
-                            src={photoUrl}
-                            alt={commonName || scientificName}
-                            width="50"
-                            height="50"
-                        />
-                    </a>
-                ) : (
-                    'N/A'
-                )}
-            </div>
-            <a
-                href={iNatLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                    textDecoration: 'none',
-                    color: 'inherit',
-                }}
-            >
-                {commonName ? (
-                    <>
-                        {commonName}
-                        <br />
-                    </>
-                ) : (
-                    ''
-                )}
-                <i
-                    style={{
-                        fontSize: 'small',
-                    }}
-                >
-                    {scientificName}
-                </i>
-            </a>
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    placeItems: 'center',
-                    textAlign: 'center',
-                }}
-            >
-                <span style={{ fontSize: 'larger' }}>📸</span>
-                <span style={{ fontSize: 'smaller' }}>
-                    {' '}
-                    {observationsCount} community observations
-                </span>
-            </div>
         </div>
     );
 };
