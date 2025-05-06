@@ -2,7 +2,7 @@ import React from 'react';
 import { useTopSpecies } from '../observations/useTopSpecies.ts';
 import { useSettings } from '../settings/useSettings.tsx';
 import { useUserObservations } from '../observations/useUserObservations.ts';
-
+import TaxonTag from '../TaxonTag.tsx';
 
 export const LifeList = (): React.ReactElement => {
     const { latitude, limit, longitude, radiusKm, userId } = useSettings();
@@ -37,6 +37,7 @@ export const LifeList = (): React.ReactElement => {
             seen: userTaxa?.has(species.id),
             iNatLink: `https://www.inaturalist.org/taxa/${species.id}`,
             iconicTaxon: species.iconic_taxon_name || 'Unknown',
+            iconicTaxonId: species.iconic_taxon_id,
         }));
     }, [topSpecies, userTaxa]);
 
@@ -139,20 +140,8 @@ export const LifeList = (): React.ReactElement => {
                                 </div>
                             </div>
                         </div>
-                        {species.iconicTaxon && (
-                            <div
-                                style={{
-                                    backgroundColor: 'rgba(255, 165, 0, 0.2)',
-                                    color: '#FF8C00',
-                                    padding: '0.2rem 0.5rem',
-                                    borderRadius: '12px',
-                                    fontSize: '0.8em',
-                                    fontWeight: 'bold',
-                                    textTransform: 'uppercase',
-                                }}
-                            >
-                                {species.iconicTaxon}
-                            </div>
+                        {species.iconicTaxonId && (
+                            <TaxonTag iconicTaxonId={species.iconicTaxonId} />
                         )}
                     </div>
                 ))}

@@ -42,6 +42,7 @@ async function fetchTopSpeciesByLatLng(
         wikipedia_url: r.taxon.wikipedia_url,
         default_photo: r.taxon.default_photo,
         ancestor_ids: r.taxon.ancestor_ids,
+        iconic_taxon_id: r.taxon.iconic_taxon_id,
     }));
 }
 
