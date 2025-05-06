@@ -92,8 +92,7 @@ const AppPage: React.FC = () => {
 
                 <div
                     style={{
-                        width: '75%',
-                        maxWidth: '600px',
+
                         margin: '0 auto',
                     }}
                 >
