@@ -6,16 +6,16 @@ interface TaxonTagProps {
 }
 
 const colorMap: Record<string, string> = {
-    Plantae: 'rgba(0, 100, 0, 0.8)', // Dark Green
-    Aves: 'rgba(0, 0, 139, 0.8)', // Dark Blue
-    Insecta: 'rgba(75, 0, 130, 0.8)', // Dark Purple
-    Mammalia: 'rgba(255, 140, 0, 0.8)', // Dark Orange
-    Fungi: 'rgba(101, 67, 33, 0.8)', // Dark Brown
-    Reptilia: 'rgba(0, 100, 100, 0.8)', // Dark Teal
-    Amphibia: 'rgba(49, 0, 98, 0.8)', // Dark Indigo
-    Fish: 'rgba(0, 104, 139, 0.8)', // Dark Light Blue
-    Arachnida: 'rgba(139, 0, 69, 0.8)', // Dark Deep Pink
-    Unknown: 'rgba(64, 64, 64, 0.8)', // Dark Gray
+    Amphibia: 'rgb(39 153 155 / 89%)',
+    Arachnida: 'rgba(139, 0, 69, 0.8)',
+    Aves: 'rgb(17 99 179 / 80%)',
+    Fish: 'rgba(0, 104, 139, 0.8)',
+    Fungi: 'rgba(101, 67, 33, 0.8)',
+    Insecta: 'rgb(117 73 229 / 98%)',
+    Mammalia: 'rgb(249 137 0 / 90%)',
+    Plantae: 'rgb(0 119 0 / 80%)',
+    Reptilia: 'rgb(131 65 9 / 80%)',
+    Unknown: 'rgba(64, 64, 64, 0.8)',
 };
 
 const fetchTaxonById = async (taxonId: number) => {
@@ -50,7 +50,7 @@ const TaxonTag: React.FC<TaxonTagProps> = ({ iconicTaxonId }) => {
         <div
             style={{
                 backgroundColor,
-                color: 'white', // White text
+                color: 'white',
                 padding: '0.2rem 0.5rem',
                 borderRadius: '12px',
                 fontSize: '0.8em',
