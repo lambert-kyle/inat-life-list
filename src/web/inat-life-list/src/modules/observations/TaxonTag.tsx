@@ -53,7 +53,7 @@ const TaxonTag: React.FC<TaxonTagProps> = ({ iconicTaxonId }) => {
                 color: 'white',
                 padding: '0.2rem 0.5rem',
                 borderRadius: '12px',
-                fontSize: '0.8em',
+                fontSize: '0.7em',
                 fontWeight: 'bold',
                 textTransform: 'uppercase',
             }}

@@ -68,8 +68,8 @@ export const LifeList = (): React.ReactElement => {
                         key={species.id}
                         style={{
                             flex: '1 1 calc(25% - 1rem)',
-                            minWidth: '350px',
-                            maxWidth: '350px',
+                            minWidth: '345px',
+                            maxWidth: '345px',
                             border: species.seen
                                 ? '2px solid rgb(76 162 0)'
                                 : '1px solid #e0e0e0',
@@ -77,7 +77,7 @@ export const LifeList = (): React.ReactElement => {
                                 ? 'rgba(0, 255, 50, 0.1)'
                                 : 'transparent',
                             borderRadius: '8px',
-                            padding: '0.5rem 0.75rem',
+                            padding: '0.5rem 0.5rem 0.5rem 0.75rem',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'space-between',
@@ -104,7 +104,7 @@ export const LifeList = (): React.ReactElement => {
                                     height="50"
                                     style={{
                                         borderRadius: '4px',
-                                        marginRight: '1rem',
+                                        marginRight: '0.6rem',
                                     }}
                                 />
                             ) : (
@@ -112,7 +112,7 @@ export const LifeList = (): React.ReactElement => {
                                     style={{
                                         width: '50px',
                                         height: '50px',
-                                        marginRight: '1rem',
+                                        marginRight: '0.75rem',
                                         backgroundColor: '#f0f0f0',
                                         display: 'flex',
                                         alignItems: 'center',
@@ -120,7 +120,7 @@ export const LifeList = (): React.ReactElement => {
                                         borderRadius: '4px',
                                     }}
                                 >
-                                    N/A
+                                    📸
                                 </div>
                             )}
                             <div>
@@ -140,6 +140,7 @@ export const LifeList = (): React.ReactElement => {
                                 </div>
                             </div>
                         </div>
+
                         {species.iconicTaxonId && (
                             <TaxonTag iconicTaxonId={species.iconicTaxonId} />
                         )}

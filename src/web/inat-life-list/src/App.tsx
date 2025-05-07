@@ -56,16 +56,18 @@ const AppPage: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'space-between',
+                minHeight: '100vh',
             }}
         >
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <SettingsSidebar setIsOpen={setIsOpen} isOpen={isOpen} />
 
                 <div
                     style={{
-                        minHeight: '100vh',
-                        padding: '2rem',
-                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '95%',
                     }}
                 >
                     <h1
@@ -73,6 +75,7 @@ const AppPage: React.FC = () => {
                             width: '100%',
                             textAlign: 'center',
                             color: 'rgb(1 81 79)',
+                            marginTop: '3.5rem',
                         }}
                     >
                         iNaturalist Life List
