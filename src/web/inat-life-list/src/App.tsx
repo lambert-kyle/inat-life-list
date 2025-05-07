@@ -94,6 +94,8 @@ const AppPage: React.FC = () => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
+    const paramsAreMissing = !limit || !radiusKm || !userId || !placeId;
+
     return (
         <div
             style={{
@@ -104,7 +106,13 @@ const AppPage: React.FC = () => {
                 minHeight: '100vh',
             }}
         >
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: '100%',
+                }}
+            >
                 <SettingsSidebar setIsOpen={setIsOpen} isOpen={isOpen} />
 
                 <div
@@ -130,66 +138,83 @@ const AppPage: React.FC = () => {
                     >
                         iNaturalist Life List
                     </h1>
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '100%',
-                            textAlign: 'center',
-                            fontSize: 'clamp(1.1rem, 2.5vw, 1.2rem)',
-                            gap: '0.25em',
-                            marginBottom: '1rem',
-                            flexWrap: 'wrap',
-                        }}
-                    >
-                        <SettingValue setIsOpen={setIsOpen}>
-                            {user?.login}
-                        </SettingValue>
-                        has observed
-                        <span
-                            style={{
-                                fontWeight: 'bold',
-                                color: '#4caf50',
-                            }}
-                        >
-                            {numberSeen}
-                        </span>
-                        of the
-                        <SettingValue setIsOpen={setIsOpen}>
-                            {limit}
-                        </SettingValue>{' '}
-                        most observed species within{' '}
-                        <SettingValue setIsOpen={setIsOpen}>
-                            {radiusKm}
-                        </SettingValue>{' '}
-                        km of{' '}
-                        <SettingValue setIsOpen={setIsOpen}>
-                            {place?.display_name}
-                        </SettingValue>
-                    </div>
+                    {paramsAreMissing && (
+                        <p>
+                            Select a{' '}
+                            <SettingValue setIsOpen={setIsOpen}>
+                                location
+                            </SettingValue>{' '}
+                            and a{' '}
+                            <SettingValue setIsOpen={setIsOpen}>
+                                user
+                            </SettingValue>
+                            !
+                        </p>
+                    )}
+                    {!paramsAreMissing && (
+                        <>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    textAlign: 'center',
+                                    fontSize: 'clamp(1.1rem, 2.5vw, 1.2rem)',
+                                    gap: '0.25em',
+                                    marginBottom: '1rem',
+                                    flexWrap: 'wrap',
+                                }}
+                            >
+                                <SettingValue setIsOpen={setIsOpen}>
+                                    {user?.login}
+                                </SettingValue>
+                                has observed
+                                <span
+                                    style={{
+                                        fontWeight: 'bold',
+                                        color: '#4caf50',
+                                    }}
+                                >
+                                    {numberSeen}
+                                </span>
+                                of the
+                                <SettingValue setIsOpen={setIsOpen}>
+                                    {limit}
+                                </SettingValue>{' '}
+                                most observed species within{' '}
+                                <SettingValue setIsOpen={setIsOpen}>
+                                    {radiusKm}
+                                </SettingValue>{' '}
+                                km of{' '}
+                                <SettingValue setIsOpen={setIsOpen}>
+                                    {place?.display_name}
+                                </SettingValue>
+                            </div>
 
-                    <div
-                        style={{
-                            margin: '0 auto',
-                        }}
-                    >
-                        {isLoading && <p>Loading...</p>}
-                        {topSpeciesError && (
-                            <p>
-                                Error loading top species:{' '}
-                                {topSpeciesError.message}
-                            </p>
-                        )}
-                        {userObservationsError && (
-                            <p>
-                                Error loading user observations:{' '}
-                                {userObservationsError.message}
-                            </p>
-                        )}
-                        <LifeList speciesList={speciesList} />
-                    </div>
+                            <div
+                                style={{
+                                    margin: '0 auto',
+                                }}
+                            >
+                                {isLoading && <p>Loading...</p>}
+                                {topSpeciesError && (
+                                    <p>
+                                        Error loading top species:{' '}
+                                        {topSpeciesError.message}
+                                    </p>
+                                )}
+                                {userObservationsError && (
+                                    <p>
+                                        Error loading user observations:{' '}
+                                        {userObservationsError.message}
+                                    </p>
+                                )}
+                                <LifeList speciesList={speciesList} />
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
             <div
