@@ -11,7 +11,7 @@ const fetchUserObservations = async (
     if (userId == undefined) return seenTaxa;
 
     while (true) {
-        const url = `https://api.inaturalist.org/v1/observations?user_id=${userId}&per_page=${perPage}&page=${page}&order_by=observed_on&order=desc`;
+        const url = `https://api.inaturalist.org/v1/observations?user_id=${userId}&per_page=${perPage}&page=${page}&order_by=observed_on&order=desc&distinct_taxa=true`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error('Failed to fetch user observations');
