@@ -18,6 +18,19 @@ const colorMap: Record<string, string> = {
     Unknown: 'rgba(64, 64, 64, 0.8)',
 };
 
+const emojiMap: Record<string, string> = {
+    Amphibia: '🐸',
+    Arachnida: '🕷️',
+    Aves: '🐦',
+    Fish: '🐠',
+    Fungi: '🍄',
+    Insecta: '🐛',
+    Mammalia: '🐾',
+    Plantae: '🌱',
+    Reptilia: '🐍',
+    Unknown: '❓',
+};
+
 const fetchTaxonById = async (taxonId: number) => {
     const response = await fetch(
         `https://api.inaturalist.org/v1/taxa/${taxonId}`
@@ -44,23 +57,27 @@ const TaxonTag: React.FC<TaxonTagProps> = ({ iconicTaxonId }) => {
     if (isLoading) return <div>Loading...</div>;
     if (error || !taxon) return <div>Error loading taxon</div>;
 
-    const backgroundColor = colorMap[taxon.name] || colorMap['Unknown'];
+    const borderColor = colorMap[taxon.name] || colorMap['Unknown'];
 
     return (
         <div
             style={{
-                backgroundColor,
-                color: 'white',
-                padding: '0.2rem 0.5rem',
-                borderRadius: '12px',
-                fontSize: '0.8em',
+                border: `3px solid ${borderColor}`, // Circular border
+                backgroundColor: 'transparent', // Transparent background
+                color: borderColor, // Match text color to border
+                width: '2.25rem', // Adjust size for larger emoji
+                height: '2.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '50%', // Makes it circular
+                fontSize: '1.25rem', // Larger emoji
                 fontWeight: 'bold',
                 textTransform: 'uppercase',
             }}
         >
-            {taxon.preferred_common_name || taxon.name}
+            {emojiMap[taxon.name] || emojiMap['Unknown']}
         </div>
     );
 };
-
 export default TaxonTag;

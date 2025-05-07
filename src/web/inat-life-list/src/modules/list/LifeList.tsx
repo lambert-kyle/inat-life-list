@@ -68,8 +68,8 @@ export const LifeList = (): React.ReactElement => {
                         key={species.id}
                         style={{
                             flex: '1 1 calc(25% - 1rem)',
-                            minWidth: '350px',
-                            maxWidth: '350px',
+                            minWidth: '330px',
+                            maxWidth: '330px',
                             border: species.seen
                                 ? '2px solid rgb(76 162 0)'
                                 : '1px solid #e0e0e0',
