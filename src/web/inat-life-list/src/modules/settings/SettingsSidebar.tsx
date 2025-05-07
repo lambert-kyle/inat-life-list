@@ -100,18 +100,18 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
             )}
             <div
                 style={{
-                    position: 'fixed',
+                    position: isOpen ? 'fixed' : 'absolute', // Keep it relative to the sidebar
                     top: 5,
                     left: isOpen ? 280 : 10, // Adjust position based on sidebar state
-                    zIndex: 1001,
                     padding: '0.5rem',
-                    transition: 'left 0.3s ease', // Smooth transition
                     height: '2em',
                     width: '2em',
                     alignItems: 'center',
                     display: 'flex',
                     fontSize: 'large',
                     color: 'rgb(1 81 79)',
+                    transition: 'left 0.3s ease', // Smooth transition
+                    zIndex: 1001, // Ensure it stays above the sidebar
                 }}
             >
                 <Hamburger toggled={isOpen} toggle={setIsOpen} />
