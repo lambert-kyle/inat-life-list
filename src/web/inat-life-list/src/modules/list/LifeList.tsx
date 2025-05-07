@@ -2,7 +2,7 @@ import React from 'react';
 import { useTopSpecies } from '../observations/useTopSpecies.ts';
 import { useSettings } from '../settings/useSettings.tsx';
 import { useUserObservations } from '../observations/useUserObservations.ts';
-import TaxonTag from '../TaxonTag.tsx';
+import TaxonTag from '../observations/TaxonTag.tsx';
 
 export const LifeList = (): React.ReactElement => {
     const { latitude, limit, longitude, radiusKm, userId } = useSettings();
