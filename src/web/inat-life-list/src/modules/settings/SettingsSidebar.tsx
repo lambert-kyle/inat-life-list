@@ -100,16 +100,16 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
             )}
             <div
                 style={{
-                    position: isOpen ? 'fixed' : 'absolute', // Keep it relative to the sidebar
-                    top: 5,
-                    left: isOpen ? 280 : 10, // Adjust position based on sidebar state
-                    padding: '0.5rem',
-                    height: '2em',
-                    width: '2em',
+                    position: 'absolute', // Keep it relative to the sidebar
+                    top: 'clamp(1px,3vw, 10px)',
+                    left: isOpen ? 280 : 0, // Adjust position based on sidebar state
+                    // padding: 'clamp(0rem, 1vw, 0.5rem)',
+                    height: '40px',
+                    width: '40px',
                     alignItems: 'center',
                     display: 'flex',
                     fontSize: 'large',
-                    color: 'rgb(1 81 79)',
+                    color: isOpen ? 'rgb(1 81 79)' : 'white',
                     transition: 'left 0.3s ease', // Smooth transition
                     zIndex: 1001, // Ensure it stays above the sidebar
                 }}

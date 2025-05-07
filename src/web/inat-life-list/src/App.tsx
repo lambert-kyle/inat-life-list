@@ -9,6 +9,7 @@ import usePlace from './modules/settings/place/usePlace.ts';
 import useUser from './modules/settings/user/useUser.ts';
 import { useTopSpecies } from './modules/observations/useTopSpecies.ts';
 import { useUserObservations } from './modules/observations/useUserObservations.ts';
+import Hamburger from 'hamburger-react';
 
 function App() {
     const queryClient = new QueryClient();
@@ -95,162 +96,154 @@ const AppPage: React.FC = () => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                minHeight: '100vh',
-            }}
-        >
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SettingsSidebar setIsOpen={setIsOpen} isOpen={isOpen} />
-
-                <div
+        <div>
+            <header
+                style={{
+                    width: '100%',
+                    backgroundColor: 'rgb(1 81 79)', // Banner background color
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.5rem 0rem',
+                    position: 'relative',
+                    top: 0,
+                    zIndex: 998,
+                }}
+            >
+                {/* Centered Title */}
+                <h1
                     style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '95%',
-                        alignItems: 'center',
+                        margin: 0,
+                        fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', // Responsive font size
+                        textAlign: 'center',
+                        flex: 1,
                     }}
                 >
-                    <h1
-                        style={{
-                            width: '100%',
-                            textAlign: 'center',
-                            color: 'rgb(1 81 79)',
-                            marginTop: '3.5rem',
-                            marginBottom: '1rem',
-                            fontSize: 'clamp(2rem, 5vw, 3rem)', // Responsive font size
-                            maxWidth: '90%', // Limit the width of the text
-                            wordWrap: 'break-word', // Ensure long words break properly
-                        }}
-                    >
-                        iNaturalist Life List
-                    </h1>
+                    iNaturalist Life List
+                </h1>
+            </header>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    minHeight: '100vh',
+                    marginTop: '1rem',
+                }}
+            >
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <SettingsSidebar setIsOpen={setIsOpen} isOpen={isOpen} />
+
                     <div
                         style={{
                             display: 'flex',
-                            flexDirection: 'row',
+                            flexDirection: 'column',
+                            width: '95%',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '100%',
-                            textAlign: 'center',
-                            fontSize: 'clamp(1.1rem, 2.5vw, 1.2rem)',
-                            gap: '0.25em',
-                            marginBottom: '1rem',
-                            flexWrap: 'wrap',
                         }}
                     >
                         <div
                             style={{
                                 display: 'flex',
+                                flexDirection: 'row',
                                 alignItems: 'center',
-                                gap: '0.5rem',
+                                justifyContent: 'center',
+                                width: '100%',
+                                textAlign: 'center',
+                                fontSize: 'clamp(1.1rem, 2.5vw, 1.2rem)',
+                                gap: '0.25em',
+                                marginBottom: '1rem',
+                                flexWrap: 'wrap',
                             }}
                         >
-                            {user?.icon_url && (
-                                <a
-                                    href={`https://www.inaturalist.org/users/${user.id}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        textDecoration: 'none',
-                                        alignItems: 'center',
-                                        display: 'flex',
-                                    }}
-                                >
-                                    <img
-                                        src={user.icon_url}
-                                        alt={user.name}
-                                        width="40"
-                                        height="40"
-                                        style={{
-                                            borderRadius: '50%',
-                                            cursor: 'pointer',
-                                        }}
-                                    />
-                                </a>
-                            )}
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                }}
+                            >
+                                <SettingValue setIsOpen={setIsOpen}>
+                                    {user?.login}
+                                </SettingValue>
+                            </div>
+                            has observed
+                            <span
+                                style={{
+                                    fontWeight: 'bold',
+                                    color: '#4caf50',
+                                }}
+                            >
+                                {numberSeen}
+                            </span>
+                            of the
                             <SettingValue setIsOpen={setIsOpen}>
-                                {user?.login}
+                                {limit}
+                            </SettingValue>{' '}
+                            most observed species within{' '}
+                            <SettingValue setIsOpen={setIsOpen}>
+                                {radiusKm}
+                            </SettingValue>{' '}
+                            km of{' '}
+                            <SettingValue setIsOpen={setIsOpen}>
+                                {place?.display_name}
                             </SettingValue>
                         </div>
-                        has observed
-                        <span
+
+                        <div
                             style={{
-                                fontWeight: 'bold',
-                                color: '#4caf50',
+                                margin: '0 auto',
                             }}
                         >
-                            {numberSeen}
-                        </span>
-                        of the
-                        <SettingValue setIsOpen={setIsOpen}>
-                            {limit}
-                        </SettingValue>{' '}
-                        most observed species within{' '}
-                        <SettingValue setIsOpen={setIsOpen}>
-                            {radiusKm}
-                        </SettingValue>{' '}
-                        km of{' '}
-                        <SettingValue setIsOpen={setIsOpen}>
-                            {place?.display_name}
-                        </SettingValue>
-                    </div>
-
-                    <div
-                        style={{
-                            margin: '0 auto',
-                        }}
-                    >
-                        {isLoading && <p>Loading...</p>}
-                        {topSpeciesError && (
-                            <p>
-                                Error loading top species:{' '}
-                                {topSpeciesError.message}
-                            </p>
-                        )}
-                        {userObservationsError && (
-                            <p>
-                                Error loading user observations:{' '}
-                                {userObservationsError.message}
-                            </p>
-                        )}
-                        <LifeList speciesList={speciesList} />
+                            {isLoading && <p>Loading...</p>}
+                            {topSpeciesError && (
+                                <p>
+                                    Error loading top species:{' '}
+                                    {topSpeciesError.message}
+                                </p>
+                            )}
+                            {userObservationsError && (
+                                <p>
+                                    Error loading user observations:{' '}
+                                    {userObservationsError.message}
+                                </p>
+                            )}
+                            <LifeList speciesList={speciesList} />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div
-                style={{
-                    fontSize: '0.9rem',
-                    textAlign: 'center',
-                    color: '#555',
-                }}
-            >
-                <p style={{ marginBottom: '-1em' }}>
-                    Made by{' '}
-                    <a
-                        href="https://github.com/lambert-kyle"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ color: '#007bff', textDecoration: 'none' }}
-                    >
-                        Kyle Lambert
-                    </a>
-                </p>
-                <p>
-                    View the project on{' '}
-                    <a
-                        href="https://github.com/lambert-kyle/inat-life-list"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ color: '#007bff', textDecoration: 'none' }}
-                    >
-                        GitHub
-                    </a>
-                </p>
+                <div
+                    style={{
+                        fontSize: '0.9rem',
+                        textAlign: 'center',
+                        color: '#555',
+                    }}
+                >
+                    <p style={{ marginBottom: '-1em' }}>
+                        Made by{' '}
+                        <a
+                            href="https://github.com/lambert-kyle"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#007bff', textDecoration: 'none' }}
+                        >
+                            Kyle Lambert
+                        </a>
+                    </p>
+                    <p>
+                        View the project on{' '}
+                        <a
+                            href="https://github.com/lambert-kyle/inat-life-list"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#007bff', textDecoration: 'none' }}
+                        >
+                            GitHub
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     );
