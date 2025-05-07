@@ -120,7 +120,8 @@ const AppPage: React.FC = () => {
                             width: '100%',
                             textAlign: 'center',
                             color: 'rgb(1 81 79)',
-                            marginTop: '3.5rem',
+                            marginTop: '1rem',
+                            marginLeft: 'clamp(0rem, 5vw, 1rem)',
                             marginBottom: '1rem',
                             fontSize: 'clamp(2rem, 5vw, 3rem)', // Responsive font size
                             maxWidth: '90%', // Limit the width of the text
@@ -143,40 +144,9 @@ const AppPage: React.FC = () => {
                             flexWrap: 'wrap',
                         }}
                     >
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem',
-                            }}
-                        >
-                            {user?.icon_url && (
-                                <a
-                                    href={`https://www.inaturalist.org/users/${user.id}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        textDecoration: 'none',
-                                        alignItems: 'center',
-                                        display: 'flex',
-                                    }}
-                                >
-                                    <img
-                                        src={user.icon_url}
-                                        alt={user.name}
-                                        width="40"
-                                        height="40"
-                                        style={{
-                                            borderRadius: '50%',
-                                            cursor: 'pointer',
-                                        }}
-                                    />
-                                </a>
-                            )}
-                            <SettingValue setIsOpen={setIsOpen}>
-                                {user?.login}
-                            </SettingValue>
-                        </div>
+                        <SettingValue setIsOpen={setIsOpen}>
+                            {user?.login}
+                        </SettingValue>
                         has observed
                         <span
                             style={{

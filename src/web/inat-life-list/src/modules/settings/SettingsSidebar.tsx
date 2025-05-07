@@ -101,8 +101,8 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
             <div
                 style={{
                     position: isOpen ? 'fixed' : 'absolute', // Keep it relative to the sidebar
-                    top: 5,
-                    left: isOpen ? 280 : 10, // Adjust position based on sidebar state
+                    top: isOpen ? 10 : 5,
+                    left: isOpen ? 280 : 0, // Adjust position based on sidebar state
                     padding: '0.5rem',
                     height: '2em',
                     width: '2em',
