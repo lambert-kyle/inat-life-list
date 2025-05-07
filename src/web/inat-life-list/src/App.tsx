@@ -177,7 +177,7 @@ const AppPage: React.FC = () => {
                                         color: '#4caf50',
                                     }}
                                 >
-                                    {numberSeen}
+                                    {isLoading ? '?' : numberSeen}
                                 </span>
                                 of the
                                 <SettingValue setIsOpen={setIsOpen}>
@@ -198,7 +198,13 @@ const AppPage: React.FC = () => {
                                     margin: '0 auto',
                                 }}
                             >
-                                {isLoading && <p>Loading...</p>}
+                                {topSpeciesLoading && (
+                                    <p>Loading species list...</p>
+                                )}
+                                {userObservationsLoading && (
+                                    <p>Loading user observations...</p>
+                                )}
+
                                 {topSpeciesError && (
                                     <p>
                                         Error loading top species:{' '}
@@ -211,7 +217,9 @@ const AppPage: React.FC = () => {
                                         {userObservationsError.message}
                                     </p>
                                 )}
-                                <LifeList speciesList={speciesList} />
+                                {!isLoading && (
+                                    <LifeList speciesList={speciesList} />
+                                )}
                             </div>
                         </>
                     )}
