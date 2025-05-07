@@ -204,40 +204,6 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
                 >
                     Save
                 </button>
-                <div
-                    style={{
-                        position: 'absolute',
-                        bottom: '2rem',
-                        left: '1rem',
-                        right: '1rem',
-                        fontSize: '0.9rem',
-                        textAlign: 'center',
-                        color: '#555',
-                    }}
-                >
-                    <p style={{ marginBottom: '-1em' }}>
-                        Made by{' '}
-                        <a
-                            href="https://github.com/lambert-kyle"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: '#007bff', textDecoration: 'none' }}
-                        >
-                            Kyle Lambert
-                        </a>
-                    </p>
-                    <p>
-                        View the project on{' '}
-                        <a
-                            href="https://github.com/lambert-kyle/inat-life-list"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: '#007bff', textDecoration: 'none' }}
-                        >
-                            GitHub
-                        </a>
-                    </p>
-                </div>
             </div>
         </>
     );

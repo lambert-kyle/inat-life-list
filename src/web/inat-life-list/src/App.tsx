@@ -51,52 +51,91 @@ const AppPage: React.FC = () => {
     );
 
     return (
-        <div style={{ display: 'flex' }}>
-            <SettingsSidebar setIsOpen={setIsOpen} isOpen={isOpen} />
-
-            <div
-                style={{
-                    minHeight: '100vh',
-                    padding: '2rem',
-                    width: '100%',
-                }}
-            >
-                <h1
-                    style={{
-                        width: '100%',
-                        textAlign: 'center',
-                        color: 'rgb(1 81 79)',
-                    }}
-                >
-                    iNaturalist Life List
-                </h1>
-                <h2
-                    style={{
-                        width: '100%',
-                        textAlign: 'center',
-                    }}
-                >
-                    Showing the <SettingValue>{limit}</SettingValue> most
-                    observed taxa within <SettingValue>{radiusKm}</SettingValue>{' '}
-                    km of <SettingValue>{place?.display_name}</SettingValue>
-                </h2>
-                <h3
-                    style={{
-                        width: '100%',
-                        textAlign: 'center',
-                    }}
-                >
-                    <SettingValue>{user?.login}</SettingValue> has observed # of
-                    the <SettingValue>{limit}</SettingValue>
-                </h3>
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+        >
+            <div style={{ display: 'flex' }}>
+                <SettingsSidebar setIsOpen={setIsOpen} isOpen={isOpen} />
 
                 <div
                     style={{
-                        margin: '0 auto',
+                        minHeight: '100vh',
+                        padding: '2rem',
+                        width: '100%',
                     }}
                 >
-                    <LifeList />
+                    <h1
+                        style={{
+                            width: '100%',
+                            textAlign: 'center',
+                            color: 'rgb(1 81 79)',
+                        }}
+                    >
+                        iNaturalist Life List
+                    </h1>
+                    <h2
+                        style={{
+                            width: '100%',
+                            textAlign: 'center',
+                        }}
+                    >
+                        Showing the <SettingValue>{limit}</SettingValue> most
+                        observed taxa within{' '}
+                        <SettingValue>{radiusKm}</SettingValue> km of{' '}
+                        <SettingValue>{place?.display_name}</SettingValue>
+                    </h2>
+                    <h3
+                        style={{
+                            width: '100%',
+                            textAlign: 'center',
+                        }}
+                    >
+                        <SettingValue>{user?.login}</SettingValue> has observed
+                        # of the <SettingValue>{limit}</SettingValue>
+                    </h3>
+
+                    <div
+                        style={{
+                            margin: '0 auto',
+                        }}
+                    >
+                        <LifeList />
+                    </div>
                 </div>
+            </div>
+            <div
+                style={{
+                    fontSize: '0.9rem',
+                    textAlign: 'center',
+                    color: '#555',
+                }}
+            >
+                <p style={{ marginBottom: '-1em' }}>
+                    Made by{' '}
+                    <a
+                        href="https://github.com/lambert-kyle"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: '#007bff', textDecoration: 'none' }}
+                    >
+                        Kyle Lambert
+                    </a>
+                </p>
+                <p>
+                    View the project on{' '}
+                    <a
+                        href="https://github.com/lambert-kyle/inat-life-list"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: '#007bff', textDecoration: 'none' }}
+                    >
+                        GitHub
+                    </a>
+                </p>
             </div>
         </div>
     );
