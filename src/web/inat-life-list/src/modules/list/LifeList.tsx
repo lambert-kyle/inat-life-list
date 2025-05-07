@@ -1,59 +1,25 @@
 import React from 'react';
-import { useTopSpecies } from '../observations/useTopSpecies.ts';
-import { useSettings } from '../settings/useSettings.tsx';
-import { useUserObservations } from '../observations/useUserObservations.ts';
 import TaxonTag from '../observations/TaxonTag.tsx';
 
-export const LifeList = (): React.ReactElement => {
-    const { latitude, limit, longitude, radiusKm, userId } = useSettings();
+export interface Species {
+    id: number;
+    scientificName: string;
+    commonName?: string;
+    iconicTaxonId?: number;
+    observationsCount: number;
+    photoUrl?: string;
+    iNatLink: string;
+    seen: boolean;
+}
+export interface LifeListProps {
+    speciesList: Species[];
+}
 
-    const {
-        data: topSpecies,
-        error: topSpeciesError,
-        isLoading: topSpeciesLoading,
-    } = useTopSpecies({
-        lat: latitude,
-        lng: longitude,
-        radius: radiusKm,
-        limit,
-    });
-
-    const {
-        data: userTaxa,
-        error: userObservationsError,
-        isLoading: userObservationsLoading,
-    } = useUserObservations(userId);
-
-    const isLoading = topSpeciesLoading || userObservationsLoading;
-
-    const speciesList = React.useMemo(() => {
-        if (!topSpecies) return [];
-        return topSpecies.map((species) => ({
-            id: species.id,
-            scientificName: species.name,
-            commonName: species.preferred_common_name,
-            observationsCount: species.observations_count,
-            photoUrl: species.default_photo?.square_url,
-            seen: userTaxa?.has(species.id),
-            iNatLink: `https://www.inaturalist.org/taxa/${species.id}`,
-            iconicTaxon: species.iconic_taxon_name || 'Unknown',
-            iconicTaxonId: species.iconic_taxon_id,
-        }));
-    }, [topSpecies, userTaxa]);
-
+export const LifeList: React.FC<LifeListProps> = ({
+    speciesList,
+}): React.ReactElement => {
     return (
         <div>
-            {isLoading && <p>Loading...</p>}
-            {topSpeciesError && (
-                <p>Error loading top species: {topSpeciesError.message}</p>
-            )}
-            {userObservationsError && (
-                <p>
-                    Error loading user observations:{' '}
-                    {userObservationsError.message}
-                </p>
-            )}
-
             <div
                 style={{
                     display: 'flex',
